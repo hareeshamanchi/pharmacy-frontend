@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ use configured API instance
 import './AdminAddProduct.css';
 
 const AdminAddProduct = () => {
@@ -27,7 +27,7 @@ const AdminAddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/admin/add-product', formData);
+      await api.post('/api/admin/add-product', formData); // ✅ using api instead of hardcoded URL
       setSuccess(true);
       setError('');
       setFormData({

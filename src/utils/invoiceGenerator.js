@@ -1,7 +1,7 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import QRCode from 'qrcode';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ use your deployed backend API instance
 
 export const generateInvoicePDF = async (formData, cartItems, subtotal, discount, total) => {
   const doc = new jsPDF('p', 'pt', 'a4');
@@ -36,7 +36,7 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
   doc.text(`Name: ${formData.name}`, margin, 180);
   doc.text(`Phone: ${formData.phone}`, margin, 195);
   doc.text(`Address: ${formData.address}`, margin, 210);
-  doc.text(`Email: ${formData.email}`, margin, 225); // ✅ Show customer email on invoice
+  doc.text(`Email: ${formData.email}`, margin, 225);
   doc.text('GSTIN: 27AUHPA739P1ZM', pageWidth - 250, 180);
   doc.text('Place of Supply: Andhra Pradesh (27)', pageWidth - 250, 195);
   doc.text('Reverse Charge: Not Applicable', pageWidth - 250, 210);
@@ -88,8 +88,6 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
   doc.text('2. All disputes subject to Madanapalle jurisdiction', margin, finalY + 38);
   doc.text('3. Payment modes accepted here', margin, finalY + 51);
 
-  // ❌ Removed GST Table from here
-
   const footerY = finalY + 70;
 
   doc.setFont('helvetica', 'bold');
@@ -126,8 +124,8 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
   const form = new FormData();
   form.append('file', pdfBlob, fileName);
   form.append('email', 'focusgovernment@gmail.com');
-  form.append('customerEmail', formData.email); // ✅ Include customer email for Nodemailer
+  form.append('customerEmail', formData.email);
   form.append('invoiceId', invoiceId);
 
-  await axios.post('http://localhost:5000/api/send-invoice', form);
+  await api.post('/api/send-invoice', form); // ✅ uses your deployed backend
 };

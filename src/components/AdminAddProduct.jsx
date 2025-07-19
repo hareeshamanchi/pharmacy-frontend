@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ Use the shared axios instance
 import './AdminAddProduct.css';
 
 const AdminAddProduct = () => {
@@ -27,7 +27,7 @@ const AdminAddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/admin/add-product', formData);
+      const response = await api.post('/api/admin/add-product', formData); // ✅ Use shared axios instance
       setSuccess(true);
       setError('');
       setFormData({

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './styles/ContactUs.css';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ replaced axios with api.js
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -23,7 +23,7 @@ const ContactUs = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/contact/send-message', formData);
+      const response = await api.post('/api/contact/send-message', formData);
       setSuccess(response.data.message);
       setError('');
     } catch (err) {

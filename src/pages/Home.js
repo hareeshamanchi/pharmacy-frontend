@@ -1,9 +1,8 @@
-// src/pages/Home.jsx
 import React, { useEffect, useState } from 'react';
 import './styles/Home.css';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ Use API instance instead of axios
 
 const homeCategories = [
   { name: 'Pain Relief', image: '/images/painrelief.jpg' },
@@ -18,7 +17,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    api.get('/api/products') // ✅ Using baseURL from api.js
       .then(res => setProducts(res.data))
       .catch(err => console.error('Error fetching products', err));
   }, []);
@@ -46,8 +45,7 @@ const Home = () => {
           <Link to="/shop" className="hero-button">Shop Now</Link>
         </div>
         <div className="hero-image">
-      <img src="/assets/hero.png" alt="pharmacy" />
-
+          <img src="/assets/hero.png" alt="pharmacy" />
         </div>
       </section>
 

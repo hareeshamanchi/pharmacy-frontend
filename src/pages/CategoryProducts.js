@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './styles/CategoryProducts.css';
 import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
 import { useCart } from '../context/CartContext';
+import api from '../utils/api'; // ✅ replaced axios with api.js
 
 const CategoryProducts = () => {
   const { category } = useParams();
@@ -10,8 +10,8 @@ const CategoryProducts = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/category/${category}`)
+    api
+      .get(`/api/products/category/${category}`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error('Error loading category products', err));
   }, [category]);

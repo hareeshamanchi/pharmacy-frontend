@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import axios from 'axios';
+
+import api from '../utils/api'; // ✅ Added for API fetch
 import '../pages/styles/Navbar.css';
 
 const Navbar = () => {
@@ -22,7 +23,7 @@ const Navbar = () => {
   const toggleMobileMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    api.get('/api/products') // ✅ Replaced hardcoded localhost with dynamic baseURL
       .then((res) => setAllProducts(res.data))
       .catch((err) => console.error('Failed to fetch products:', err));
   }, []);

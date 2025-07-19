@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../utils/api';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
@@ -19,7 +19,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://localhost:5000/api/admin/login', {
+      const res = await api.post('/api/admin/login', {
         email,
         password,
       });
@@ -55,7 +55,8 @@ const AdminLogin = () => {
         <button type="submit">Login</button>
       </form>
       {error && <p className="error">{error}</p>}
-      <p className="note">⚠️ No login required for customers. Only Admin has access.</p>
+      <p className="note">⚠️ No login required for customers. Only Admin has access.
+      </p>
     </div>
   );
 };

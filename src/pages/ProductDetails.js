@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api'; // ✅ updated
 import { useCart } from '../context/CartContext';
 import './styles/ProductDetails.css';
 import Tilt from 'react-parallax-tilt';
@@ -12,8 +12,8 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/${productId}`)
+    api
+      .get(`/api/products/${productId}`) // ✅ updated
       .then((res) => setProduct(res.data))
       .catch((err) => console.error('Fetch failed:', err));
   }, [productId]);
@@ -32,7 +32,6 @@ const ProductDetails = () => {
     });
   };
 
-  // Utility to split description into parts
   const getSection = (key) => {
     const text = product.description;
     const start = text.indexOf(`**${key}:**`);
@@ -71,10 +70,7 @@ const ProductDetails = () => {
           <h1>{product.drugName}</h1>
           <h4 className="brand">Brand: {product.brandName}</h4>
 
-          <motion.div
-            className="discount-tag-glow"
-            whileHover={{ scale: 1.1, rotate: 3 }}
-          >
+          <motion.div className="discount-tag-glow" whileHover={{ scale: 1.1, rotate: 3 }}>
             {product.discount}% OFF
           </motion.div>
 

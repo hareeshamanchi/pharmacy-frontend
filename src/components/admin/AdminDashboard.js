@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
 
@@ -19,8 +18,9 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/products');
-      setProducts(res.data);
+      const response = await fetch('/api/admin/products');
+      const data = await response.json();
+      setProducts(data);
     } catch (err) {
       setError('Failed to load products');
     }
@@ -29,7 +29,9 @@ const AdminDashboard = () => {
   const handleDelete = async (productId) => {
     if (!window.confirm(`Delete ${productId}?`)) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/products/${productId}`);
+      await fetch(`/api/admin/products/${productId}`, {
+        method: 'DELETE'
+      });
       fetchProducts();
     } catch {
       setError('Failed to delete product');
@@ -45,7 +47,7 @@ const AdminDashboard = () => {
     <div className="admin-dashboard">
       <div className="dashboard-header">
         <h1>🛠️ Admin Dashboard</h1>
-        <button className="logout-btn" onClick={handleLogout}>📛 Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>💛 Logout</button>
       </div>
 
       <p className="subtitle">Manage your product catalog with ease</p>

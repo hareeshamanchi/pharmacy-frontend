@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from 'axios'; // for image upload
+import api from '../utils/api'; // shared backend instance
+
 import './AdminAddProduct.css';
 
 const AdminAddProduct = ({ onProductAdded }) => {
@@ -68,7 +70,7 @@ const AdminAddProduct = ({ onProductAdded }) => {
     }
 
     try {
-      await axios.post('http://localhost:5000/api/admin/products', formData);
+      await api.post('/api/admin/products', formData); // updated to use api.js
       setSuccess(true);
       setError('');
       setSelectedFile(null);

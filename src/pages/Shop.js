@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import api from '../utils/api'; // ✅ Replaced axios with your predefined api instance
 import '../pages/styles/Shop.css';
 
 const Shop = () => {
@@ -9,7 +9,7 @@ const Shop = () => {
   const { addToCart } = useCart();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/products')
+    api.get('/api/products') // ✅ Use your api instance here
       .then(res => setProducts(res.data))
       .catch(err => console.error('Error fetching shop products:', err));
   }, []);

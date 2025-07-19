@@ -1,8 +1,8 @@
-// src/pages/Categories.js
+// src/components/Categories.js
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../utils/api';
 import './styles/Categories.css';
-import axios from 'axios';
 
 const defaultCategoryImages = {
   'Pain Relief': '/images/painrelief.jpg',
@@ -17,8 +17,7 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/products')
+    api.get('/api/products')
       .then((res) => {
         const products = res.data;
         const uniqueCategories = Array.from(

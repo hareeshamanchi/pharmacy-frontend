@@ -1,126 +1,94 @@
-// src/components/admin/AdminEditProduct.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './AdminEditProduct.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './AdminDashboard.css';
+import api from '../../utils/api';
 
-const AdminEditProduct = () => {
-  const { productId } = useParams();
+const AdminDashboard = () => {
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    drugName: '',
-    brandName: '',
-    composition: '',
-    price: '',
-    discount: '',
-    description: '',
-    tabletsPerSheet: '',
-    category: '',
-    imageUrl: '',
-  });
-
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await axios.get(`http://localhost:5000/api/admin/products/${productId}`);
-        setFormData(res.data);
-      } catch (err) {
-        setError('Failed to load product data.');
-      }
-    };
+    const isAdminAuthenticated = localStorage.getItem('adminAuthenticated');
+    if (!isAdminAuthenticated) {
+      navigate('/admin/login');
+    } else {
+      fetchProducts();
+    }
+  }, [navigate]);
 
-    fetchProduct();
-  }, [productId]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    setUploading(true);
+  const fetchProducts = async () => {
     try {
-      const form = new FormData();
-      form.append('image', file);
-
-      const res = await axios.post(
-        `https://api.imgbb.com/1/upload?key=8d1c0c9cd82d32510f5735fe76025757`,
-        form
-      );
-
-      setFormData((prev) => ({
-        ...prev,
-        imageUrl: res.data.data.url,
-      }));
-      setError('');
+      const response = await api.get('/api/admin/products');
+      setProducts(response.data);
     } catch (err) {
-      setError('Image upload failed.');
-    } finally {
-      setUploading(false);
+      setError('Failed to load products');
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleDelete = async (productId) => {
+    if (!window.confirm(`Delete ${productId}?`)) return;
     try {
-      await axios.put(`http://localhost:5000/api/admin/products/${productId}`, formData);
-      setSuccess(true);
-      setError('');
-    } catch (err) {
-      setError(err.response?.data?.error || 'Update failed.');
-      setSuccess(false);
+      await api.delete(`/api/admin/products/${productId}`);
+      fetchProducts();
+    } catch {
+      setError('Failed to delete product');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminAuthenticated');
+    navigate('/admin/login');
   };
 
   return (
-    <div className="admin-edit-product">
-      <div className="edit-header">
-        <h2>Edit Product</h2>
-        <button className="back-btn" onClick={() => navigate(-1)} title="Go back">
-          ❌
-        </button>
+    <div className="admin-dashboard">
+      <div className="dashboard-header">
+        <h1>🛠️ Admin Dashboard</h1>
+        <button className="logout-btn" onClick={handleLogout}>💛 Logout</button>
       </div>
 
-      <form onSubmit={handleSubmit} className="admin-edit-form">
-        <input type="text" name="drugName" placeholder="Drug Name" value={formData.drugName} onChange={handleChange} />
-        <input type="text" name="brandName" placeholder="Brand Name" value={formData.brandName} onChange={handleChange} />
-        <input type="text" name="composition" placeholder="Composition" value={formData.composition} onChange={handleChange} />
-        <input type="number" name="price" placeholder="Price" value={formData.price} onChange={handleChange} />
-        <input type="number" name="discount" placeholder="Discount (%)" value={formData.discount} onChange={handleChange} />
-        <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} />
-        <input type="number" name="tabletsPerSheet" placeholder="Tablets per Sheet" value={formData.tabletsPerSheet} onChange={handleChange} />
-        <input type="text" name="category" placeholder="Category" value={formData.category} onChange={handleChange} />
+      <p className="subtitle">Manage your product catalog with ease</p>
 
-        <div className="custom-file-upload">
-  <label htmlFor="imageUpload" className="upload-btn">
-    📁 {uploading ? 'Uploading...' : 'Upload New Image'}
-  </label>
-  <input type="file" id="imageUpload" accept="image/*" onChange={handleFileChange} />
-</div>
+      <button className="add-product-btn" onClick={() => navigate('/admin/add-product')}>
+        ➕ Add New Product
+      </button>
 
-        {/* ✅ Image Preview */}
-        {formData.imageUrl && (
-          <div className="uploaded-image-preview">
-            <p>✅ Current Image:</p>
-            <a href={formData.imageUrl} target="_blank" rel="noreferrer">
-              <img src={formData.imageUrl} alt="Uploaded" className="thumb" />
-            </a>
-          </div>
-        )}
+      {error && <p className="error">{error}</p>}
 
-        <button type="submit" disabled={uploading}>Update Product</button>
-      </form>
-
-      {success && <p className="success-msg">✅ Product updated successfully!</p>}
-      {error && <p className="error-msg">❌ {error}</p>}
+      <div className="table-container">
+        <table className="product-table">
+          <thead>
+            <tr>
+              <th>ID</th><th>Drug</th><th>Brand</th><th>Price</th>
+              <th>Discount</th><th>Category</th><th>Image</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.length === 0 ? (
+              <tr><td colSpan="8">Loading...</td></tr>
+            ) : (
+              products.map(prod => (
+                <tr key={prod.productId}>
+                  <td>{prod.productId}</td>
+                  <td>{prod.drugName}</td>
+                  <td>{prod.brandName}</td>
+                  <td>₹{prod.price}</td>
+                  <td>{prod.discount}%</td>
+                  <td>{prod.category}</td>
+                  <td><img src={prod.imageUrl} alt="" className="thumb" /></td>
+                  <td>
+                    <button className="edit-btn" onClick={() => navigate(`/admin/edit/${prod.productId}`)}>✏️</button>
+                    <button className="delete-btn" onClick={() => handleDelete(prod.productId)}>🗑️</button>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default AdminEditProduct;
+export default AdminDashboard;
