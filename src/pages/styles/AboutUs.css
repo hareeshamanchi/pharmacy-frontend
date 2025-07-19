@@ -1,0 +1,79 @@
+.about-container {
+  padding: 60px 10%;
+  background: linear-gradient(to bottom, #e6f7ff, #ffffff);
+  color: #13324f;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.about-container h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 40px;
+  color: #092c48;
+}
+
+.about-container h1 span {
+  color: #0077cc;
+}
+
+.about-section {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.7s ease;
+  margin-bottom: 60px;
+  padding: 20px;
+  background: white;
+  border-left: 5px solid #0077cc;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+
+.about-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #025c9b;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.about-section ul {
+  padding-left: 20px;
+}
+
+.about-section ul li {
+  font-size: 1.05rem;
+  margin: 8px 0;
+  color: #15536e;
+}
+
+.team img {
+  margin-top: 20px;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .about-container {
+    padding: 40px 5%;
+  }
+
+  .about-section h2 {
+    font-size: 1.6rem;
+  }
+
+  .about-container h1 {
+    font-size: 2.2rem;
+  }
+}

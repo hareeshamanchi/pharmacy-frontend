@@ -1,0 +1,144 @@
+.shop-container {
+  padding: 50px;
+  background: #f4faff;
+  animation: fadeIn 0.5s ease-in-out;
+  min-height: 100vh;
+}
+
+.shop-heading {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #003366;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 30px;
+}
+
+.shop-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.shop-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.shop-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.shop-card:hover .shop-image {
+  transform: scale(1.05);
+}
+
+.shop-drug-name {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.shop-composition {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+
+  /* ✨ Fix long composition overflow */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* show max 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 2.8em;
+}
+
+
+.shop-price-wrapper {
+  margin-top: 8px;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-right: 6px;
+}
+
+.discounted-price {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.discount-percent {
+  color: #ff3e3e;
+  font-weight: 500;
+  margin-left: 6px;
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.3);
+}
+
+.shop-add-btn {
+  background-color: #00c853;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.shop-add-btn:hover {
+  background-color: #009624;
+}
+
+@media (max-width: 768px) {
+  .shop-container {
+    padding: 30px;
+  }
+
+  .shop-heading {
+    font-size: 2rem;
+  }
+
+  .shop-card {
+    padding: 15px;
+  }
+
+  .shop-image {
+    height: 160px;
+  }
+
+  .shop-drug-name {
+    font-size: 1rem;
+  }
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,138 @@
+.admin-add-product {
+  max-width: 700px;
+  margin: 90px auto;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.admin-add-product h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  color: #2c3e50;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.admin-add-product form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-add-product input,
+.admin-add-product textarea {
+  padding: 12px 15px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.admin-add-product input:focus,
+.admin-add-product textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.file-upload-label {
+  background: #f0f0f0;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s ease;
+  width: fit-content;
+}
+
+.file-upload-label:hover {
+  background: #e0e0e0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.image-status {
+  font-size: 14px;
+  color: green;
+  margin-top: -10px;
+  font-weight: 500;
+}
+
+.admin-add-product button {
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s ease;
+}
+
+.admin-add-product button:hover {
+  background: #0056b3;
+}
+
+.success,
+.error {
+  text-align: center;
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 15px;
+}
+
+.success {
+  color: #28a745;
+}
+
+.error {
+  color: #dc3545;
+}
+
+@media screen and (max-width: 768px) {
+  .admin-add-product {
+    padding: 25px 20px;
+  }
+}
+
+
+/* Custom File Upload */
+.custom-file-upload {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+.upload-btn {
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #333;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #e2e2e2;
+  border-color: #aaa;
+}
