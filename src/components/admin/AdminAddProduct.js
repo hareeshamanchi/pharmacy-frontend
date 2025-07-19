@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // for image upload
-import api from '../utils/api'; // shared backend instance
+import api from '../../utils/api';
+ // shared backend instance
 
 import './AdminAddProduct.css';
 
