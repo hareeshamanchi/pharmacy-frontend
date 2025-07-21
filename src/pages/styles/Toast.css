@@ -1,36 +1,85 @@
+/* Toast.css */
+
 .toast {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #de1111;  /* 🔴 Red background */
-  color: #ffffff !important;  /* ✅ Force white text */
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
-  animation: slideIn 0.4s ease, fadeOut 0.5s ease 2.5s forwards;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  text-align: center;
+    position: fixed;
+    top: 70px; /* Adjust this value to appear below your navbar */
+    left: 50%; /* Start from the middle of the screen */
+    transform: translateX(-50%); /* Pull back by half its width to truly center it */
+    
+    max-width: 400px; /* Constrain its maximum width */
+    width: 90%; /* Responsive width: take up 90% of screen width, but not more than max-width */
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10000; /* Ensure it's above the navbar (which is z-index 9999) */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+
+    /* Base animation for entry and exit */
+    animation: slideIn 0.4s ease forwards; /* Use 'forwards' to keep the final state */
 }
 
+/* Specific background colors for each toast type */
 .toast.success {
-  background-color: #de1111;     /* Use same red background */
-  color: #ffffff !important;     /* ✅ Force white text again */
+    background-color: #28a745; /* Green for success */
+    color: #ffffff; /* White text */
 }
 
 .toast.error {
-  background-color: #ec2517;
-  color: #ffffff !important;
+    background-color: #dc3545; /* Red for error */
+    color: #ffffff;
 }
 
 .toast.info {
-  background-color: #2196f3;
-  color: #ffffff !important;
+    background-color: #2196f3; /* Blue for info */
+    color: #ffffff;
 }
 
 .toast.warning {
-  background-color: #ff9800;
-  color: #ffffff !important;
+    background-color: #ff9800; /* Orange for warning */
+    color: #ffffff;
+}
+
+/* Animation Keyframes */
+@keyframes slideIn {
+    from {
+        top: 0;
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100%); /* Start above screen */
+    }
+    to {
+        top: 70px; /* End at desired position */
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Add fadeOut animation that starts after a delay */
+.toast {
+    animation: slideIn 0.4s ease forwards, fadeOut 0.5s ease 2.5s forwards; /* 2.5s delay + 0.5s duration */
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-100%); /* Slide up and fade out */
+        visibility: hidden; /* Hide element completely after animation */
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .toast {
+        max-width: 90%; /* Allow it to be wider on smaller screens, but still constrained */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 14px;
+        padding: 10px 15px;
+    }
 }
