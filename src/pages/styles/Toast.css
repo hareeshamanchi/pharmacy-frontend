@@ -2,84 +2,67 @@
 
 .toast {
     position: fixed;
-    top: 70px; /* Adjust this value to appear below your navbar */
-    left: 50%; /* Start from the middle of the screen */
-    transform: translateX(-50%); /* Pull back by half its width to truly center it */
-    
-    max-width: 400px; /* Constrain its maximum width */
-    width: 90%; /* Responsive width: take up 90% of screen width, but not more than max-width */
+    top: 20px; /* Adjust top position as needed */
+    right: 20px; /* Position it on the right side */
+    background-color: #de1111; /* Red background */
+    color: #ffffff !important; /* Force white text */
     padding: 12px 24px;
     border-radius: 8px;
     font-weight: bold;
     font-size: 16px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    z-index: 10000; /* Ensure it's above the navbar (which is z-index 9999) */
+    z-index: 10000; /* Ensure it's above other elements */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-
-    /* Base animation for entry and exit */
-    animation: slideIn 0.4s ease forwards; /* Use 'forwards' to keep the final state */
+    animation: slideInRight 0.4s ease, fadeOut 0.5s ease 2.5s forwards; /* Use slideInRight animation */
 }
 
-/* Specific background colors for each toast type */
 .toast.success {
-    background-color: #28a745; /* Green for success */
-    color: #ffffff; /* White text */
+    background-color: #28a745; /* Green for success if you intend to use it later */
+    color: #ffffff !important;
 }
 
 .toast.error {
-    background-color: #dc3545; /* Red for error */
-    color: #ffffff;
+    background-color: #ec2517;
+    color: #ffffff !important;
 }
 
 .toast.info {
-    background-color: #2196f3; /* Blue for info */
-    color: #ffffff;
+    background-color: #2196f3;
+    color: #ffffff !important;
 }
 
 .toast.warning {
-    background-color: #ff9800; /* Orange for warning */
-    color: #ffffff;
+    background-color: #ff9800;
+    color: #ffffff !important;
 }
 
-/* Animation Keyframes */
-@keyframes slideIn {
+/* Slide-in from right animation */
+@keyframes slideInRight {
     from {
-        top: 0;
+        right: -400px; /* Start off-screen to the right */
         opacity: 0;
-        transform: translateX(-50%) translateY(-100%); /* Start above screen */
     }
     to {
-        top: 70px; /* End at desired position */
+        right: 20px; /* Slide into the desired right position */
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
     }
 }
 
-/* Add fadeOut animation that starts after a delay */
-.toast {
-    animation: slideIn 0.4s ease forwards, fadeOut 0.5s ease 2.5s forwards; /* 2.5s delay + 0.5s duration */
-}
-
+/* Fade-out animation (no change needed if you had it) */
 @keyframes fadeOut {
     from {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
     }
     to {
         opacity: 0;
-        transform: translateX(-50%) translateY(-100%); /* Slide up and fade out */
-        visibility: hidden; /* Hide element completely after animation */
     }
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
+/* Responsive adjustments can be added as needed */
+@media (max-width: 768px) {
     .toast {
-        max-width: 90%; /* Allow it to be wider on smaller screens, but still constrained */
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 14px;
-        padding: 10px 15px;
+        max-width: 90%;
+        right: 5%; /* Adjust right margin for smaller screens */
     }
 }
