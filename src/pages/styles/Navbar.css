@@ -1,379 +1,421 @@
-/* General Body Styles for Font Smoothing */
+/* Navbar.css */
+
+/* General Body Styles for Font Smoothing (can also go in a global.css) */
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin: 0; /* Ensure no default body margin pushes content down */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    overflow-x: hidden; /* Prevent horizontal scroll for smooth animations */
+    background-color: #f0f2f5; /* A very subtle light grey background for the whole page */
+    font-family: 'Inter', sans-serif; /* Consistent font across the body */
 }
 
 /* Navbar Container */
 .navbar {
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364); /* Dark, sophisticated gradient */
-  height: 75px; /* Slightly taller for more presence */
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  transition: top 0.4s ease, box-shadow 0.3s ease;
-  font-family: 'Poppins', sans-serif; /* Modern font choice */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Deeper, more prominent shadow */
+    background: linear-gradient(to right, #e0f2f7, #c1e8f7, #a2dcf0); /* Light blue/green gradient */
+    height: 80px; /* Slightly taller for more presence */
+    position: fixed;
+    width: 100%;
+    /* top will be controlled by JS for hide/show on scroll */
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    /* Re-enabled and adjusted for faster animation: */
+    transition: top 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+    font-family: 'Inter', sans-serif; /* A modern, clean font */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lighter, subtle shadow */
 }
 
 .navbar-container {
-  max-width: 1400px; /* Wider container for more content space */
-  margin: 0 auto;
-  width: 100%;
-  padding: 0 25px; /* More padding on sides */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 30px; /* More padding on sides for breathing room */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
 .navbar-logo {
-  font-size: 2rem; /* Larger logo for impact */
-  font-weight: 700;
-  color: #fff;
-  text-decoration: none;
-  white-space: nowrap;
-  letter-spacing: 0.8px; /* Enhanced letter spacing */
-  transition: color 0.3s ease;
+    font-size: 2.1rem; /* Slightly larger logo for impact */
+    font-weight: 800; /* Extra bold */
+    color: #0a192f; /* Dark text for contrast */
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: 1px; /* Enhanced letter spacing */
+    transition: color 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
 }
 
 .navbar-logo .highlight {
-  color: #ffc107; /* Consistent highlight color */
+    color: #007bff; /* Bright blue highlight */
 }
 
 .navbar-logo:hover {
-  color: #ffc107; /* Logo hover effect */
+    color: #0056b3; /* Darker blue on hover */
 }
 
 /* Search Bar */
 .search-bar {
-  display: flex;
-  align-items: center;
-  position: relative;
-  flex-grow: 1;
-  max-width: 500px; /* Wider search bar */
-  margin: 0 40px; /* Increased margin */
-}
-.search-bar input {
-  flex-grow: 1;
-  padding: 12px 20px; /* More padding */
-  border-radius: 30px; /* Even more rounded */
-  border: 1px solid #777; /* Softer border */
-  font-size: 16px;
-  background-color: #f0f0f0; /* Slightly off-white background */
-  color: #333;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* More defined inner shadow */
-  outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-.search-bar input:focus {
-  border-color: #4CAF50; /* Green highlight on focus (matches add to cart) */
-  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.3); /* Green glow */
-  background-color: #fff; /* White background on focus */
-}
-.search-bar button {
-  padding: 12px 22px; /* Adjusted padding */
-  background: #4CAF50; /* Green submit button */
-  color: white;
-  border: none;
-  border-radius: 30px; /* Match input border-radius */
-  margin-left: -45px; /* Adjusted for better overlap */
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  font-size: 18px; /* Larger icon */
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.search-bar button:hover {
-  background: #388E3C; /* Darker green on hover */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    position: relative;
+    flex-grow: 1;
+    max-width: 550px; /* Wider search bar */
+    margin: 0 50px; /* Increased margin */
+    background-color: transparent; /* Ensure no background on the form itself */
+    border: none; /* Make sure the container doesn't have a border */
+    box-shadow: none; /* Make sure the container doesn't have a shadow */
 }
 
+.search-bar input {
+    flex-grow: 1;
+    padding: 14px 25px; /* More padding for a substantial feel */
+    padding-right: 25px; /* ✅ Adjusted padding-right - no button to make space for */
+    border-radius: 40px; /* Fully rounded pill shape */
+    border: none !important; /* FORCE NO BORDER */
+    outline: none !important; /* FORCE NO OUTLINE */
+    font-size: 17px;
+    background-color: #ffffff; /* White background */
+    color: #333; /* Dark text color */
+    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
+    transition: all 0.3s ease-in-out;
+}
+.search-bar input::placeholder {
+    color: #777; /* Lighter placeholder text */
+}
+
+.search-bar input:focus {
+    background-color: #ffffff !important;
+    color: #333 !important;
+    border: 1px solid #007bff !important; /* Blue highlight on focus */
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Blue glow */
+}
+
+/* Removed the .search-bar button styles entirely as the button is gone */
+/*
+.search-bar button { ... }
+.search-bar button:hover { ... }
+.search-bar button svg { ... }
+*/
+
 .search-suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  z-index: 1000;
-  border: 1px solid #ddd;
-  border-top: none;
-  border-radius: 0 0 10px 10px; /* Slightly more rounded */
-  max-height: 280px; /* More height for suggestions */
-  overflow-y: auto;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1000;
+    border: none; /* No border, rely on shadow */
+    border-radius: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Lighter, softer shadow */
+    border-top: none !important;
 }
 .search-suggestions li {
-  padding: 14px 20px; /* More padding */
-  font-size: 16px;
-  cursor: pointer;
-  color: #444;
-  border-bottom: 1px solid #f0f0f0; /* Lighter separator */
-  transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 15px 22px;
+    font-size: 16.5px;
+    cursor: pointer;
+    color: #444;
+    border-bottom: 1px solid #f2f2f2;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 .search-suggestions li:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 .search-suggestions li:hover,
 .search-suggestions li.highlighted {
-  background-color: #e6f7ff; /* Light blue highlight */
-  color: #0f2027;
+    background-color: #e6f7ff; /* Light blue highlight */
+    color: #0a192f;
 }
 
 /* Nav Menu */
 .nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 30px; /* Increased gap for more breathing room */
-  align-items: center;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 17px; /* Slightly larger font */
-  padding: 10px 0; /* More vertical padding */
-  position: relative;
-  transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
-  font-weight: 500;
+    color: #0a192f; /* Dark text for links */
+    text-decoration: none;
+    font-size: 17.5px;
+    padding: 10px 0;
+    position: relative;
+    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+    font-weight: 500;
 }
 
 .nav-link::after {
-  content: '';
-  width: 0%;
-  height: 3px; /* Thicker underline */
-  background: #ffc107;
-  position: absolute;
-  bottom: -6px; /* Lower position */
-  left: 0;
-  transition: width 0.3s ease;
+    content: '';
+    width: 0%;
+    height: 3px;
+    background: #007bff; /* Blue underline */
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .nav-link:hover::after {
-  width: 100%;
+    width: 100%;
 }
 .nav-link:hover,
 .nav-link.active {
-  color: #ffeb3b; /* Brighter yellow on hover/active */
-  transform: translateY(-3px); /* More pronounced lift */
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); /* Subtle text glow */
+    color: #0056b3; /* Darker blue on hover/active */
+    transform: translateY(-4px);
+    text-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Subtle blue glow */
 }
 
 .logout-btn {
-  background: #dc3545; /* Red logout button */
-  color: white;
-  padding: 10px 18px; /* Increased padding */
-  border: none;
-  border-radius: 6px; /* Slightly more rounded */
-  cursor: pointer;
-  font-size: 15px;
-  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 6px; /* More space for icon */
+    background: #dc3545; /* Red logout button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 .logout-btn:hover {
-  background: #c82333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Cart Icon */
 .cart-icon {
-  position: relative;
-  font-size: 26px; /* Larger icon for better visibility */
-  margin-left: 30px; /* Increased margin */
-  cursor: pointer;
-  color: #fff;
-  transition: transform 0.2s ease, color 0.2s ease;
-  display: flex; /* For perfect centering of count */
-  align-items: center;
-  justify-content: center;
+    position: relative;
+    margin-left: 35px;
+    cursor: pointer;
+    color: #0a192f; /* Dark color for the icon */
+    transition: transform 0.2s ease, color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
 }
+
+.cart-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    transition: fill 0.2s ease;
+}
+
 .cart-icon:hover {
-  transform: scale(1.15); /* More pronounced pop effect */
-  color: #ffeb3b; /* Changes color on hover */
+    transform: scale(1.2);
+    color: #007bff; /* Blue on hover */
 }
 .cart-count {
-  position: absolute;
-  top: -8px; /* Adjusted position */
-  right: -8px; /* Adjusted position */
-  background: #ff5722; /* Vibrant orange for count */
-  color: white;
-  border-radius: 50%;
-  padding: 5px 8px; /* More padding */
-  font-size: 12px;
-  min-width: 22px; /* Ensure circular shape for single digit */
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Stronger shadow for count */
-  font-weight: 600;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff5722; /* Vibrant orange for count */
+    color: white;
+    border-radius: 50%;
+    padding: 5px 8px;
+    font-size: 12px;
+    min-width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Lighter shadow */
+    font-weight: 700;
+    border: 1.5px solid #e0f2f7; /* Border matching navbar background */
 }
 
 /* Mobile Menu Icon (Hamburger) */
 .mobile-menu-icon {
-  display: none; /* Hidden by default on larger screens */
-  flex-direction: column;
-  gap: 6px; /* More space between bars */
-  cursor: pointer;
-  z-index: 10000;
-  margin-left: 25px; /* Added spacing */
+    display: none;
+    flex-direction: column;
+    gap: 7px;
+    cursor: pointer;
+    z-index: 10000;
+    margin-left: 25px;
 }
 
 .bar {
-  width: 30px; /* Wider bars */
-  height: 4px; /* Thicker bars */
-  background: white;
-  transition: all 0.3s ease;
-  border-radius: 3px; /* Slightly more rounded bars */
+    width: 32px;
+    height: 4px;
+    background: #0a192f; /* Dark bars for contrast */
+    transition: all 0.3s ease-in-out;
+    border-radius: 3px;
 }
 
 .bar.open:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px); /* Adjusted transform */
+    transform: rotate(45deg) translate(9px, 9px);
 }
 
 .bar.open:nth-child(2) {
-  opacity: 0;
+    opacity: 0;
 }
 
 .bar.open:nth-child(3) {
-  transform: rotate(-45deg) translate(8px, -8px); /* Adjusted transform */
+    transform: rotate(-45deg) translate(9px, -9px);
 }
 
 /* =================== Responsive Adjustments (Mobile First Approach) =================== */
-@media screen and (max-width: 992px) { /* Tablet and smaller */
-  .navbar-container {
-    padding: 0 15px;
-  }
-  .search-bar {
-    max-width: 400px;
-    margin: 0 20px;
-  }
-  .nav-menu {
-    gap: 20px;
-  }
-  .navbar-logo {
-    font-size: 1.7rem;
-  }
+@media screen and (max-width: 992px) {
+    .navbar-container {
+        padding: 0 20px;
+    }
+    .search-bar {
+        max-width: 350px;
+        margin: 0 25px;
+    }
+    .nav-menu {
+        gap: 25px;
+    }
+    .navbar-logo {
+        font-size: 1.8rem;
+    }
+    .search-bar input {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+    /* Removed .search-bar button media queries */
+    /*
+    .search-bar button {
+        padding: 11px 20px;
+        font-size: 18px;
+    }
+    */
+    .cart-icon {
+        width: 28px;
+        height: 28px;
+    }
 }
 
-
-@media screen and (max-width: 768px) { /* Mobile */
-  .navbar {
-    height: auto;
-    padding-bottom: 15px;
-    align-items: flex-start; /* Align items to the top for stacked layout */
-  }
-
-  .navbar-container {
-    flex-direction: row; /* Keep elements on a row for the top bar */
-    flex-wrap: wrap; /* Allow wrapping */
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px; /* Consistent padding */
-  }
-
-  .navbar-logo {
-    font-size: 1.5rem;
-    order: 1; /* Keep logo first */
-    margin-right: auto; /* Push others to the right */
-  }
-
-  .mobile-menu-icon {
-    display: flex; /* Show mobile menu icon */
-    order: 3; /* Position after cart icon */
-    margin-left: 20px; /* Space from cart icon */
-  }
-
-  .cart-icon {
-    order: 2; /* Position before mobile menu icon */
-    margin-left: auto; /* Push cart icon to the left of the hamburger */
-  }
-
-  .search-bar {
-    order: 4; /* Push search bar to a new line */
-    width: 100%;
-    margin-top: 15px; /* Space from top bar */
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .search-bar input {
-    width: 100%;
-    box-sizing: border-box;
-    padding-right: 60px; /* More space for the larger button */
-  }
-
-  .search-bar button {
-    position: absolute;
-    right: 8px; /* Closer to the edge */
-    top: 50%;
-    transform: translateY(-50%);
-    margin-left: 0;
-    border-radius: 50%;
-    width: 50px; /* Larger tap target */
-    height: 50px; /* Larger tap target */
-    font-size: 20px; /* Larger icon */
-    padding: 0; /* Remove padding as width/height define size */
-  }
-
-  .search-suggestions {
-    width: calc(100% - 40px); /* Adjust width for container padding */
-    left: 20px;
-    right: 20px;
-  }
-
-  .nav-menu {
-    order: 5; /* Place nav menu after search bar */
-    flex-direction: column;
-    align-items: center;
-    background-color: #1a3a4d; /* Slightly lighter background for mobile menu */
-    width: 100%;
-    position: absolute; /* To allow it to overlay content */
-    top: 75px; /* Position directly below the top bar */
-    left: 0;
-    max-height: 0; /* Collapsed by default */
-    overflow: hidden;
-    transition: max-height 0.4s ease-in-out, padding 0.4s ease;
-    z-index: 9998;
-    border-top: 1px solid rgba(255, 255, 255, 0.15); /* Clearer separator */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Shadow for dropdown */
-  }
-
-  .nav-menu.active {
-    max-height: 500px; /* Sufficient height for all links */
-    padding: 20px 0; /* Generous padding when active */
-  }
-
-  .nav-menu li {
-    width: 100%;
-    text-align: center;
-    padding: 5px 0; /* Adjusted vertical padding */
-  }
-
-  .nav-link {
-    display: block;
-    padding: 15px 0; /* Larger clickable area for mobile links */
-    font-size: 18px; /* Larger font for mobile readability */
-  }
-
-  .nav-link::after {
-    height: 4px; /* Thicker underline for mobile */
-    bottom: -8px; /* More space */
-  }
-
-  .logout-btn {
-    width: calc(100% - 60px); /* Adjust width for better centering */
-    margin: 15px auto 0 auto; /* Center with more top margin */
-  }
+@media screen and (max-width: 768px) {
+    .navbar {
+        height: auto;
+        padding-bottom: 15px;
+        align-items: flex-start;
+    }
+    .navbar-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px 0 20px;
+    }
+    .navbar-logo {
+        font-size: 1.6rem;
+        order: 1;
+        margin-right: auto;
+    }
+    .mobile-menu-icon {
+        display: flex;
+        order: 3;
+        margin-left: 20px;
+    }
+    .cart-icon {
+        order: 2;
+        margin-left: auto;
+        width: 28px;
+        height: 28px;
+    }
+    .search-bar {
+        order: 4;
+        width: 100%;
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .search-bar input {
+        width: 100%;
+        box-sizing: border-box;
+        padding-right: 25px; /* ✅ Adjusted for no button */
+    }
+    /* Removed .search-bar button media queries */
+    /*
+    .search-bar button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 0;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        padding: 0;
+    }
+    */
+    .search-suggestions {
+        width: calc(100% - 40px);
+        left: 20px;
+        right: 20px;
+    }
+    .nav-menu {
+        order: 5;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f7fcfd; /* Lighter background for mobile menu */
+        width: 100%;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out, padding 0.4s ease;
+        z-index: 9998;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    .nav-menu.active {
+        max-height: 500px;
+        padding: 20px 0;
+    }
+    .nav-menu li {
+        width: 100%;
+        text-align: center;
+        padding: 5px 0;
+    }
+    .nav-link {
+        display: block;
+        padding: 16px 0;
+        font-size: 19px;
+        color: #0a192f;
+    }
+    .nav-link::after {
+        height: 4px;
+        bottom: -10px;
+    }
+    .logout-btn {
+        width: calc(100% - 60px);
+        margin: 15px auto 0 auto;
+    }
 }
 
-
+@media screen and (max-width: 480px) {
+    .navbar-logo {
+        font-size: 1.4rem;
+    }
+    .cart-icon {
+        width: 24px;
+        height: 24px;
+    }
+    .mobile-menu-icon {
+        gap: 6px;
+    }
+    .bar {
+        width: 28px;
+        height: 3px;
+    }
+}

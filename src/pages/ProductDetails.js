@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../utils/api'; // ✅ updated
+import api from '../utils/api';
 import { useCart } from '../context/CartContext';
-import './styles/ProductDetails.css';
+import './styles/ProductDetails.css'; // Ensure your updated CSS is linked
 import Tilt from 'react-parallax-tilt';
 import { motion } from 'framer-motion';
 
@@ -13,12 +13,12 @@ const ProductDetails = () => {
 
   useEffect(() => {
     api
-      .get(`/api/products/${productId}`) // ✅ updated
+      .get(`/api/products/${productId}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.error('Fetch failed:', err));
   }, [productId]);
 
-  if (!product) return <div className="loading">Loading...</div>;
+  if (!product) return <div className="loading">Loading...</div>; // Consider adding a spinner here
 
   const discountedPrice = product.price - (product.price * product.discount) / 100;
 
@@ -32,15 +32,21 @@ const ProductDetails = () => {
     });
   };
 
-  const getSection = (key) => {
-    const text = product.description;
-    const start = text.indexOf(`**${key}:**`);
-    if (start === -1) return '';
-    const rest = text.slice(start + key.length + 4);
-    const nextKeyMatch = rest.match(/\*\*(.+?):\*\*/);
-    const end = nextKeyMatch ? rest.indexOf(nextKeyMatch[0]) : rest.length;
-    return rest.slice(0, end).trim();
+  // Removed the complex getSection logic for a simpler display.
+  // If your description comes with newlines, we'll replace them with <br/>
+  const formatDescription = (text) => {
+    if (!text) return 'No detailed description available.';
+    // Replace double asterisks with strong tags (basic markdown for bold)
+    // and newlines with <br /> tags
+    let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    return formattedText.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        {index < formattedText.split('\n').length - 1 && <br />}
+      </React.Fragment>
+    ));
   };
+
 
   return (
     <motion.div
@@ -80,9 +86,9 @@ const ProductDetails = () => {
           </div>
 
           <ul className="meta-list">
-            <li><strong>Composition:</strong> {product.composition}</li>
-            <li><strong>Category:</strong> {product.category}</li>
-            <li><strong>Tablets per Sheet:</strong> {product.tabletsPerSheet}</li>
+            <li><strong>Composition:</strong> {product.composition || 'N/A'}</li>
+            <li><strong>Category:</strong> {product.category || 'N/A'}</li>
+            <li><strong>Tablets per Sheet:</strong> {product.tabletsPerSheet || 'N/A'}</li>
           </ul>
 
           <motion.button
@@ -103,47 +109,26 @@ const ProductDetails = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        <h2>Detailed Description</h2>
+        <h2>Product Details</h2> {/* Changed from "Detailed Description" to "Product Details" */}
 
         <div className="desc-section">
-          <h3>Overview</h3>
-          <p>{getSection('Overview')}</p>
+          {/* Display the entire description here, formatted simply */}
+          <p>{formatDescription(product.description)}</p>
+          {/* Removed individual getSection calls */}
         </div>
 
-        <div className="desc-section">
-          <h3>Chemical Composition</h3>
-          <p>{getSection('Chemical Composition')}</p>
-        </div>
-
+        {/* Removed other desc-section divs if you want a single block description */}
+        {/* If you want to keep them but simply, you'd structure your description string:
+        
         <div className="desc-section">
           <h3>Uses</h3>
-          <ul>
-            {getSection('Uses')
-              .split(' - ')
-              .filter(Boolean)
-              .map((line, i) => <li key={i}>{line.trim()}</li>)}
-          </ul>
+          <p>{product.description.split('**Uses:**')[1]?.split('**')[0]?.trim() || 'No uses listed.'}</p>
         </div>
+        
+        This would still rely on **Uses:** in the string.
+        The `formatDescription` above handles simple bolding and newlines if your backend sends it that way.
+        */}
 
-        <div className="desc-section">
-          <h3>Mechanism of Action</h3>
-          <p>{getSection('Mechanism of Action')}</p>
-        </div>
-
-        <div className="desc-section">
-          <h3>Storage</h3>
-          <ul>
-            {getSection('Storage')
-              .split(' - ')
-              .filter(Boolean)
-              .map((line, i) => <li key={i}>{line.trim()}</li>)}
-          </ul>
-        </div>
-
-        <div className="desc-section">
-          <h3>Precautions</h3>
-          <p>{getSection('Precautions')}</p>
-        </div>
       </motion.div>
     </motion.div>
   );

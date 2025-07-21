@@ -1,302 +1,405 @@
+/* ProductDetails.css */
+
 /* === Container Setup === */
 .product-page-3d {
-  padding: 50px;
-  background: linear-gradient(to right, #eef2f9, #f5f9ff);
-  font-family: 'Segoe UI', sans-serif;
-  color: #1c1c1c;
+    padding: 60px 40px; /* Increased padding */
+    background: linear-gradient(to right, #f8fbfd, #eaf4f7); /* Lighter, subtle gradient */
+    font-family: 'Inter', sans-serif; /* Consistent modern font */
+    color: #2c3e50; /* Darker, more professional text color */
+    padding-top: 100px; /* Offset for fixed navbar */
 }
 
 /* === Layout Flexbox === */
 .product-card-3d-container {
-  display: flex;
-  gap: 60px;
-  align-items: center;
-  margin-bottom: 50px;
-  flex-wrap: wrap;
+    display: flex;
+    gap: 80px; /* More space between image and info */
+    align-items: flex-start; /* Align to the top */
+    margin-bottom: 60px; /* More space before description */
+    flex-wrap: wrap;
+    justify-content: center; /* Center on smaller screens */
 }
 
 /* === Image Tilt Card === */
 .product-image-tilt {
-  width: 320px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 25px 55px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-  padding: 20px;
-  transition: transform 0.5s ease-in-out;
+    flex-shrink: 0; /* Prevent shrinking on flex container */
+    width: 380px; /* Larger image card */
+    max-width: 100%; /* Ensure responsiveness */
+    background: #ffffff;
+    border-radius: 20px; /* More rounded */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0,0,0,0.05); /* Deeper shadow, subtle border */
+    overflow: hidden;
+    padding: 30px; /* Increased padding inside card */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transform */
+}
+
+.product-image-tilt:hover {
+    transform: scale(1.02); /* Slight scale on hover for the whole card */
 }
 
 .product-img-3d {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  transition: transform 0.3s ease-in-out;
+    width: 100%;
+    height: 300px; /* Fixed height for image area for consistency */
+    object-fit: contain; /* Ensure image fits without cropping */
+    border-radius: 16px; /* Match outer border radius */
+    transition: transform 0.3s ease-in-out;
 }
 
 /* === Product Info Box === */
 .product-info-box {
-  flex: 1;
-  min-width: 300px;
-  background: white;
-  padding: 30px 40px;
-  border-radius: 20px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease-in-out;
+    flex: 1;
+    min-width: 400px; /* Increased min-width for content */
+    max-width: 700px; /* Limit max-width for readability */
+    background: white;
+    padding: 40px 50px; /* More padding */
+    border-radius: 25px; /* More rounded */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.05); /* Deeper shadow, subtle border */
+    transition: all 0.3s ease-in-out;
 }
 
 .product-info-box h1 {
-  font-size: 2.4rem;
-  margin-bottom: 10px;
-  color: #001f3f;
-  font-weight: 700;
+    font-size: 2.8rem; /* Larger, more impactful heading */
+    margin-bottom: 12px;
+    color: #0a192f; /* Darker blue for headings */
+    font-weight: 800; /* Extra bold */
+    line-height: 1.2;
 }
 
 .brand {
-  color: #444;
-  margin-bottom: 18px;
-  font-weight: 600;
+    color: #555;
+    margin-bottom: 25px; /* More space below brand */
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 /* === Discount Tag === */
 .discount-tag-glow {
-  background: linear-gradient(135deg, #ff4e50, #f9d423);
-  color: white;
-  font-weight: 700;
-  display: inline-block;
-  padding: 10px 14px;
-  border-radius: 10px;
-  box-shadow: 0 0 18px rgba(255, 78, 80, 0.6);
-  margin-bottom: 20px;
-  transition: transform 0.3s ease;
-  font-size: 0.95rem;
+    background: linear-gradient(135deg, #ff4e50, #f9d423); /* Vibrant gradient */
+    color: white;
+    font-weight: 700;
+    display: inline-block;
+    padding: 10px 18px; /* More padding */
+    border-radius: 12px; /* More rounded */
+    box-shadow: 0 0 20px rgba(255, 78, 80, 0.6); /* Stronger initial glow */
+    margin-bottom: 30px; /* More space below tag */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1rem; /* Larger font */
+    letter-spacing: 0.8px; /* More pronounced letter spacing */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+    animation: pulseGlow 2.5s infinite ease-in-out; /* Continuous glow */
 }
 
 /* === Price Box === */
 .price-box {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-bottom: 20px;
+    display: flex;
+    gap: 20px; /* More space between prices */
+    align-items: baseline; /* Align prices to their baseline */
+    margin-bottom: 30px;
 }
 
 .strike {
-  text-decoration: line-through;
-  font-size: 1.2rem;
-  color: #aaa;
+    text-decoration: line-through;
+    font-size: 1.3rem; /* Larger strikethrough price */
+    color: #999; /* Softer grey */
 }
 
 .highlight {
-  font-size: 1.7rem;
-  color: #00b894;
-  font-weight: bold;
-  text-shadow: 0 0 10px rgba(0, 184, 148, 0.3);
+    font-size: 2.2rem; /* Much larger discounted price */
+    color: #28a745; /* Clean green for highlight */
+    font-weight: bold;
+    text-shadow: 0 0 15px rgba(40, 167, 69, 0.4); /* Green glow */
 }
 
 /* === Meta List === */
 .meta-list {
-  list-style: none;
-  padding: 0;
-  margin-bottom: 25px;
-  font-size: 1rem;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 35px; /* More space below list */
+    font-size: 1.05rem; /* Slightly larger font */
+    line-height: 1.8; /* Better readability */
 }
 
 .meta-list li {
-  margin-bottom: 6px;
+    margin-bottom: 8px; /* More space between list items */
+    color: #444;
 }
+.meta-list li strong {
+    color: #222;
+    font-weight: 600;
+}
+
 
 /* === Add to Cart Button === */
 .cart-btn-3d {
-  background: linear-gradient(to right, #0052d4, #4364f7);
-  color: white;
-  padding: 14px 24px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 12px 30px rgba(67, 100, 247, 0.3);
-  transition: all 0.3s ease;
-  width: 100%;
-  font-weight: 600;
+    background: linear-gradient(to right, #007bff, #0056b3); /* Bright blue gradient */
+    color: white;
+    padding: 16px 28px; /* Larger padding */
+    font-size: 1.15rem; /* Larger font */
+    border: none;
+    border-radius: 12px; /* More rounded */
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0, 123, 255, 0.35); /* Deeper, more pronounced shadow */
+    transition: all 0.3s ease;
+    width: 100%;
+    font-weight: 700;
+    text-transform: uppercase; /* Uppercase for prominence */
+    letter-spacing: 1px; /* Spacing for button text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between text and icon */
+    animation: floatCartBtn 3s ease-in-out infinite; /* Continuous float */
 }
 
 .cart-btn-3d:hover {
-  transform: scale(1.05);
+    transform: scale(1.02) translateY(-2px); /* Slight scale and lift on hover */
+    box-shadow: 0 20px 45px rgba(0, 123, 255, 0.5); /* Stronger shadow on hover */
+    background: linear-gradient(to right, #0056b3, #007bff); /* Reverse gradient on hover */
+}
+.cart-btn-3d:active {
+    transform: scale(0.98); /* Slight press effect */
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
 }
 
-/* === Description Section === */
+
+/* === Description Section (Simplified) === */
 .description-box-3d {
-  background: white;
-  padding: 40px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  line-height: 1.8;
-  font-size: 1rem;
-  color: #333;
+    background: white;
+    padding: 40px 50px; /* More padding */
+    border-radius: 25px; /* More rounded */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0,0,0,0.03); /* Lighter shadow, subtle border */
+    line-height: 1.8;
+    font-size: 1rem;
+    color: #333;
+    font-family: 'Inter', sans-serif;
 }
 
 .description-box-3d h2 {
-  font-size: 1.5rem;
-  margin-bottom: 16px;
-  color: #004085;
-  font-weight: bold;
+    font-size: 1.8rem; /* Larger heading */
+    margin-bottom: 15px; /* More space below main heading */
+    color: #0a192f; /* Dark blue heading */
+    font-weight: 700;
+    border-bottom: 2px solid #e0f2f7; /* Lighter border for clean separation */
+    padding-bottom: 10px;
 }
 
-/* === Responsive === */
-@media (max-width: 768px) {
-  .product-card-3d-container {
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .product-info-box {
-    padding: 20px;
-  }
-
-  .description-box-3d {
-    padding: 20px;
-  }
-}
-
-/* === Structured Description === */
-.description-box-3d {
-  background: white;
-  padding: 40px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  line-height: 1.8;
-  font-size: 1rem;
-  color: #222;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  font-family: 'Inter', sans-serif;
-}
-
-.description-box-3d h2 {
-  font-size: 1.6rem;
-  margin-bottom: 8px;
-  color: #004085;
-  font-weight: 700;
-  border-bottom: 2px solid #dbe9ff;
-  padding-bottom: 6px;
-}
-
-/* === Each Section Block === */
+/* === Single Description Section Block === */
 .desc-section {
-  padding: 12px 0;
-  border-bottom: 1px dashed #e0e0e0;
+    padding: 0; /* No internal padding here, let p tags handle it */
+    border-bottom: none; /* No border as it's a single section */
+    animation: fadeUp 0.6s ease-in-out forwards; /* Entry animation */
+    opacity: 0; /* Hidden initially for animation */
 }
 
-.desc-section:last-child {
-  border-bottom: none;
+.desc-section p {
+    margin: 0; /* Remove default paragraph margins */
+    color: #444;
+    font-size: 1.05rem;
+    line-height: 1.8; /* Consistent line height */
 }
 
-.desc-section h3 {
-  font-size: 1.1rem;
-  color: #2b2b2b;
-  font-weight: 600;
-  margin-bottom: 6px;
+/* Styles for bold text within the description (from formatDescription function) */
+.desc-section p strong {
+    font-weight: 700;
+    color: #0a192f; /* Darker color for bold text */
 }
-
-.desc-section p,
-.desc-section ul {
-  margin: 0;
-  color: #444;
-}
-
-.desc-section ul {
-  padding-left: 18px;
-  list-style-type: disc;
-}
-
 
 /* === Fancy Glowing Animation for Discount === */
 @keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 10px #ff4e50, 0 0 20px #f9d423;
-  }
-  50% {
-    box-shadow: 0 0 20px #ff4e50, 0 0 40px #f9d423;
-  }
-  100% {
-    box-shadow: 0 0 10px #ff4e50, 0 0 20px #f9d423;
-  }
-}
-
-.discount-tag-glow {
-  animation: pulseGlow 2.5s infinite ease-in-out;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+    0% {
+        box-shadow: 0 0 15px rgba(255, 78, 80, 0.5), 0 0 30px rgba(249, 212, 35, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 78, 80, 0.8), 0 0 50px rgba(249, 212, 35, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 15px rgba(255, 78, 80, 0.5), 0 0 30px rgba(249, 212, 35, 0.3);
+    }
 }
 
 /* === 3D Image Hover Bounce === */
 .product-img-3d:hover {
-  transform: perspective(600px) rotateY(2deg) scale(1.03);
+    transform: perspective(800px) rotateY(3deg) scale(1.04);
 }
 
 /* === Floating Animation for Add to Cart === */
 @keyframes floatCartBtn {
-  0% {
-    transform: translateY(0px);
-    box-shadow: 0 4px 20px rgba(67, 100, 247, 0.3);
-  }
-  50% {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(67, 100, 247, 0.5);
-  }
-  100% {
-    transform: translateY(0px);
-    box-shadow: 0 4px 20px rgba(67, 100, 247, 0.3);
-  }
+    0% {
+        transform: translateY(0px);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    }
+    50% {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 123, 255, 0.5);
+    }
+    100% {
+        transform: translateY(0px);
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    }
 }
 
-.cart-btn-3d {
-  animation: floatCartBtn 3s ease-in-out infinite;
-}
-
-/* === Fancy Glow Border on Card === */
+/* === Fancy Glow Border on Card (product-info-box) === */
 .product-info-box {
-  position: relative;
+    position: relative;
+    overflow: hidden;
 }
 
 .product-info-box::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 22px;
-  background: linear-gradient(45deg, #00b894, #6c5ce7, #00cec9);
-  z-index: -1;
-  opacity: 0.2;
-  animation: glow-border 4s ease-in-out infinite;
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 27px;
+    background: linear-gradient(45deg, #00b894, #007bff, #00cec9);
+    z-index: -1;
+    opacity: 0.15;
+    filter: blur(8px);
+    animation: glow-border 4s ease-in-out infinite;
 }
 
 @keyframes glow-border {
-  0%, 100% {
-    filter: blur(5px);
-    opacity: 0.15;
-  }
-  50% {
-    filter: blur(12px);
-    opacity: 0.35;
-  }
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.15;
+    }
+    50% {
+        transform: scale(1.02);
+        opacity: 0.35;
+    }
 }
 
-/* === Section Entry Animation (Optional) === */
+/* === Section Entry Animation (for desc-section) === */
 @keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
-  }
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
-.desc-section {
-  animation: fadeUp 0.6s ease-in-out;
+/* === Responsive === */
+@media (max-width: 992px) {
+    /* Product Details Page */
+    .product-page-3d {
+        padding: 40px 30px;
+    }
+    .product-card-3d-container {
+        gap: 40px;
+        flex-direction: column; /* Stack image and info on smaller tablets */
+        align-items: center;
+    }
+    .product-image-tilt {
+        width: 300px; /* Slightly smaller image on tablet */
+        padding: 20px;
+    }
+    .product-img-3d {
+        height: 250px;
+    }
+    .product-info-box {
+        min-width: unset; /* Remove min-width to allow shrinking */
+        max-width: 90%; /* Max width for consistency */
+        padding: 30px;
+        text-align: center; /* Center text for stacked layout */
+    }
+    .product-info-box h1 {
+        font-size: 2.2rem;
+    }
+    .brand {
+        margin-bottom: 20px;
+    }
+    .price-box {
+        justify-content: center; /* Center prices */
+        margin-bottom: 25px;
+    }
+    .cart-btn-3d {
+        width: 80%; /* Button takes up more width */
+        margin: 0 auto; /* Center button */
+    }
+    .description-box-3d {
+        padding: 30px;
+    }
+    .description-box-3d h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Product Details Page */
+    .product-page-3d {
+        padding: 30px 20px;
+    }
+    .product-card-3d-container {
+        gap: 30px;
+    }
+    .product-image-tilt {
+        width: 100%;
+        padding: 15px;
+    }
+    .product-img-3d {
+        height: 200px;
+    }
+    .product-info-box {
+        padding: 25px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .product-info-box h1 {
+        font-size: 1.8rem;
+    }
+    .brand {
+        font-size: 1rem;
+    }
+    .discount-tag-glow {
+        padding: 8px 15px;
+        font-size: 1rem;
+    }
+    .price-box {
+        gap: 15px;
+    }
+    .strike {
+        font-size: 1.1rem;
+    }
+    .highlight {
+        font-size: 1.8rem;
+    }
+    .meta-list {
+        font-size: 0.95rem;
+    }
+    .cart-btn-3d {
+        padding: 14px 20px;
+        font-size: 1rem;
+        width: 90%;
+    }
+    .description-box-3d {
+        padding: 25px;
+    }
+    .description-box-3d h2 {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Product Details Page */
+    .product-page-3d {
+        padding: 20px 15px;
+    }
+    .product-card-3d-container {
+        gap: 20px;
+    }
+    .product-image-tilt {
+        padding: 10px;
+    }
+    .product-img-3d {
+        height: 180px;
+    }
+    .product-info-box {
+        padding: 20px;
+    }
+    .product-info-box h1 {
+        font-size: 1.6rem;
+    }
 }

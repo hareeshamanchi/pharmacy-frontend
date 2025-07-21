@@ -1,8 +1,10 @@
+// Navbar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { FaShoppingCart } from 'react-icons/fa'; // Removed FaSearch as it's no longer used
 
-import api from '../utils/api'; // ✅ Added for API fetch
+import api from '../utils/api';
 import '../pages/styles/Navbar.css';
 
 const Navbar = () => {
@@ -23,7 +25,7 @@ const Navbar = () => {
   const toggleMobileMenu = () => setMenuOpen(!menuOpen);
 
   useEffect(() => {
-    api.get('/api/products') // ✅ Replaced hardcoded localhost with dynamic baseURL
+    api.get('/api/products')
       .then((res) => setAllProducts(res.data))
       .catch((err) => console.error('Failed to fetch products:', err));
   }, []);
@@ -31,7 +33,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      setShowNavbar(scrollTop <= lastScrollTop.current);
+      setShowNavbar(scrollTop <= lastScrollTop.current || scrollTop === 0);
       lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;
       setMenuOpen(false);
     };
@@ -71,10 +73,13 @@ const Navbar = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowDown') {
+      e.preventDefault();
       setHighlightedIndex((prev) => (prev + 1) % suggestions.length);
     } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
       setHighlightedIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length);
     } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+      e.preventDefault();
       handleSuggestionClick(suggestions[highlightedIndex].drugName);
     }
   };
@@ -97,7 +102,7 @@ const Navbar = () => {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
           />
-          <button type="submit">🔍</button>
+          {/* Removed the button completely as per your request */}
           {suggestions.length > 0 && (
             <ul className="search-suggestions">
               {suggestions.map((sugg, index) => (
@@ -114,19 +119,20 @@ const Navbar = () => {
         </form>
 
         <ul className={`nav-menu ${menuOpen ? 'active' : ''}`}>
-          <li><NavLink to="/" className="nav-link">Home</NavLink></li>
-          <li><NavLink to="/shop" className="nav-link">Shop</NavLink></li>
-          <li><NavLink to="/categories" className="nav-link">Categories</NavLink></li>
-          <li><NavLink to="/contact" className="nav-link">Contact</NavLink></li>
-          <li><NavLink to="/about" className="nav-link">About</NavLink></li>
-          <li><NavLink to="/admin/dashboard" className="nav-link">Admin Dashboard</NavLink></li>
+          <li><NavLink to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
+          <li><NavLink to="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>Shop</NavLink></li>
+          <li><NavLink to="/categories" className="nav-link" onClick={() => setMenuOpen(false)}>Categories</NavLink></li>
+          <li><NavLink to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</NavLink></li>
+          <li><NavLink to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</NavLink></li>
+          <li><NavLink to="/admin/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Admin Dashboard</NavLink></li>
           {isAdmin && (
             <li><button onClick={handleLogout} className="nav-link logout-btn">📛 Logout</button></li>
           )}
         </ul>
 
         <div className="cart-icon" onClick={toggleCart} title="View Cart">
-          🛍️ {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>}
+          <FaShoppingCart />
+          {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>}
         </div>
 
         <div className="mobile-menu-icon" onClick={toggleMobileMenu}>
