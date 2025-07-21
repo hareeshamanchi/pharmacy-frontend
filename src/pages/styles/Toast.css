@@ -1,68 +1,95 @@
-/* Toast.css */
+/* src/pages/styles/Toast.css */
 
-.toast {
+.toast-wrapper {
     position: fixed;
-    top: 20px; /* Adjust top position as needed */
-    right: 20px; /* Position it on the right side */
-    background-color: #de1111; /* Red background */
-    color: #ffffff !important; /* Force white text */
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 16px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    z-index: 10000; /* Ensure it's above other elements */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    animation: slideInRight 0.4s ease, fadeOut 0.5s ease 2.5s forwards; /* Use slideInRight animation */
+    top: 20px; /* Distance from the top of the viewport */
+    right: 20px; /* Position the wrapper on the right side */
+    width: auto; /* Allow wrapper to fit content */
+    max-width: calc(100% - 40px); /* Max width for wrapper, considering margins */
+    z-index: 10000; /* Ensure wrapper is above everything */
+    pointer-events: none; /* Allow clicks to pass through the wrapper's empty space */
 }
 
+.toast {
+    /* Styles for the inner toast box */
+    background-color: #333; /* Default dark background if no type is set */
+    color: #ffffff; /* Default white text */
+    padding: 12px 24px;
+    border-radius: 8px; /* Slightly rounded corners */
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center; /* Center the text within the toast box */
+
+    /* Sizing - The max-width and min-width are now applied directly here */
+    max-width: 320px; /* A reasonable max-width for the toast content */
+    width: auto; /* Allow width to be determined by content, up to max-width */
+    min-width: 200px; /* Ensure it's not too small */
+
+    /* Positioning within its wrapper (auto margins will push it to the right within the wrapper) */
+    margin-left: auto; /* Pushes the toast to the right within the flex/block wrapper */
+    margin-right: 0;
+
+    /* Animation */
+    animation: slideInRight 0.4s ease forwards, fadeOut 0.5s ease 2.5s forwards;
+    pointer-events: auto; /* Allow clicks on the actual toast box */
+}
+
+/* Specific background colors for each toast type */
 .toast.success {
-    background-color: #28a745; /* Green for success if you intend to use it later */
-    color: #ffffff !important;
+    background-color: #28a745; /* Green for successful messages (conventional) */
+    color: #ffffff;
 }
 
 .toast.error {
-    background-color: #ec2517;
-    color: #ffffff !important;
+    background-color: #dc3545; /* Red for error/warning messages */
+    color: #ffffff;
 }
 
 .toast.info {
     background-color: #2196f3;
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
 .toast.warning {
     background-color: #ff9800;
-    color: #ffffff !important;
+    color: #ffffff;
 }
 
-/* Slide-in from right animation */
+/* Animation: Slide in from right */
 @keyframes slideInRight {
     from {
-        right: -400px; /* Start off-screen to the right */
         opacity: 0;
+        transform: translateX(100%); /* Start completely off-screen to the right of its wrapper */
     }
     to {
-        right: 20px; /* Slide into the desired right position */
         opacity: 1;
+        transform: translateX(0); /* Slide into its final position within the wrapper */
     }
 }
 
-/* Fade-out animation (no change needed if you had it) */
+/* Animation: Fade out after a delay */
 @keyframes fadeOut {
     from {
         opacity: 1;
     }
     to {
         opacity: 0;
+        visibility: hidden; /* Ensure it completely disappears from layout */
     }
 }
 
-/* Responsive adjustments can be added as needed */
-@media (max-width: 768px) {
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .toast-wrapper {
+        top: 10px;
+        right: 10px;
+        max-width: calc(100% - 20px); /* Adjust max-width for smaller screens */
+    }
     .toast {
-        max-width: 90%;
-        right: 5%; /* Adjust right margin for smaller screens */
+        max-width: 100%; /* Toast itself can take full width of wrapper */
+        font-size: 14px;
+        padding: 10px 15px;
     }
 }

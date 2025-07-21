@@ -1,6 +1,6 @@
 // src/context/Toast.js
 import React, { useEffect, useState } from 'react';
-import '../pages/styles/Toast.css';
+import '../pages/styles/Toast.css'; // This is where the styling is
 
 const Toast = () => {
   const [toast, setToast] = useState(null);
@@ -8,7 +8,7 @@ const Toast = () => {
   useEffect(() => {
     const handleShowToast = (e) => {
       setToast(e.detail);
-      setTimeout(() => setToast(null), 3000);
+      setTimeout(() => setToast(null), 3000); // Toast disappears after 3 seconds
     };
 
     window.addEventListener('show-toast', handleShowToast);
@@ -17,14 +17,16 @@ const Toast = () => {
 
   return (
     toast && (
-      <div className={`toast ${toast.type || 'success'}`}>
-        <span className="toast-message">{toast.message}</span>
+      // Added a wrapper div for more robust positioning
+      <div className="toast-wrapper">
+        <div className={`toast ${toast.type || 'success'}`}>
+          <span className="toast-message">{toast.message}</span>
+        </div>
       </div>
     )
   );
 };
 
-// ✅ Global function to trigger toast from anywhere
 export const showToast = (message, type = 'success') => {
   const event = new CustomEvent('show-toast', {
     detail: { message, type },
