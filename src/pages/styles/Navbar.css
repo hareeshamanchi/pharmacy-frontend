@@ -1,9 +1,9 @@
+/* Navbar.css */
+
 /* General Body Styles for Font Smoothing (can also go in a global.css) */
 body {
   margin: 0;
-  /* CRITICAL: Adjust padding-top to make space for the fixed navbar */
-  /* This value should be equal to or slightly more than your navbar's height */
-  padding-top: 80px; 
+  padding-top: 80px; /* Default for desktop (approx navbar height) */
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -14,9 +14,9 @@ body {
   background: linear-gradient(to right, #e0f2f7, #c1e8f7, #a2dcf0); /* Soft gradient background */
   height: 80px; /* Navbar fixed height */
   position: fixed; /* Makes the navbar stick to the top */
-  width: 100%;
-  top: 0;
-  left: 0; /* Ensure it spans full width */
+  top: 0;          /* Aligns to the very top of the viewport */
+  left: 0;         /* Aligns to the very left of the viewport */
+  width: 100%;     /* Ensures it spans the full width of the viewport */
   z-index: 9999; /* High z-index to stay above everything */
   display: flex;
   align-items: center;
@@ -46,6 +46,27 @@ body {
   letter-spacing: 1px;
   transition: color 0.3s ease;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+  position: relative; /* Needed for pseudo-element glow */
+  overflow: hidden; /* Ensures glow doesn't extend infinitely */
+}
+
+/* Adding a subtle glow effect to the VaidyaSthana logo */
+.navbar-logo::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0,123,255,0.3) 0%, transparent 70%);
+    transition: transform 0.5s ease-out;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.navbar-logo:hover::before {
+    transform: scale(1);
+    animation: pulseLogoGlow 2s infinite alternate; /* Subtle pulse animation */
 }
 
 .navbar-logo .highlight {
@@ -72,13 +93,13 @@ body {
   padding: 14px 25px;
   padding-right: 60px; /* Space for search button */
   border-radius: 40px; /* Rounded corners */
-  border: none !important; /* Override potential browser defaults */
+  border: 2px solid #e0e0e0; /* Default border */
   outline: none !important;
   font-size: 17px;
   background-color: #ffffff;
   color: #333;
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out, box-shadow 0.3s ease; /* Add box-shadow to transition */
 }
 
 .search-bar input::placeholder {
@@ -88,8 +109,8 @@ body {
 .search-bar input:focus {
   background-color: #ffffff !important;
   color: #333 !important;
-  border: 1px solid #007bff !important; /* Blue border on focus */
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Outer glow on focus */
+  border-color: #007bff !important; /* Blue border on focus */
+  box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Larger, softer outer glow on focus */
 }
 
 .search-bar button {
@@ -134,16 +155,47 @@ body {
   padding: 10px 0;
   position: relative;
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease; /* Add transform for 3D effect */
+  /* --- IMPORTANT: Add these for the glowing line effect --- */
+  overflow: hidden; /* Hide the overflow of the glowing line initially */
+  display: block; /* Ensures pseudo-element position correctly relative to the link */
+}
+
+/* Glowing line below the word */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0; /* Starts hidden */
+  height: 3px; /* Thickness of the line */
+  background: linear-gradient(to right, #007bff, #00d4ff); /* Blue gradient for the line */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.7); /* Glow effect for the line */
+  transition: width 0.3s ease-out; /* Smooth expansion */
+}
+
+.nav-link:hover::after {
+  width: 100%; /* Expands to full width on hover */
 }
 
 .nav-link:hover {
   color: #0056b3;
+  transform: perspective(1000px) rotateY(5deg) scale(1.02); /* 3D effect on hover */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Shadow to enhance 3D */
+  z-index: 1; /* Bring forward on hover */
 }
 
 .nav-link.active { /* Style for active link */
   color: #007bff;
+  /* Add persistent glowing line for active link */
 }
+
+.nav-link.active::after {
+  width: 100%; /* Line is always visible for active link */
+  background: linear-gradient(to right, #007bff, #00d4ff); /* Consistent gradient */
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.9); /* Stronger glow for active */
+}
+
 
 /* Logout Button Specific Style */
 .logout-btn {
@@ -153,13 +205,28 @@ body {
   padding: 8px 15px;
   border-radius: 5px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, box-shadow 0.3s ease;
   font-weight: 600;
+  position: relative; /* For pseudo-element glow */
+  overflow: hidden;
 }
 
-.logout-btn:hover {
-  background-color: #dc3545;
-  color: white;
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(220,53,69,0.5) 0%, transparent 70%);
+    transition: transform 0.5s ease-out;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.logout-btn:hover::before {
+    transform: scale(1);
+    animation: pulseGlowRed 1.5s infinite alternate; /* Red glow pulse */
 }
 
 /* Cart Icon */
@@ -168,12 +235,12 @@ body {
   font-size: 24px;
   cursor: pointer;
   color: #0a192f; /* Icon color */
-  transition: color 0.3s ease;
-  margin-left: 20px; /* Space from nav menu or search bar */
+  transition: color 0.3s ease, transform 0.2s ease; /* Add transform for bounce */
 }
 
 .cart-icon:hover {
   color: #007bff;
+  transform: scale(1.1); /* Slight bounce on hover */
 }
 
 .cart-count {
@@ -184,9 +251,10 @@ body {
   color: white;
   font-size: 12px;
   font-weight: bold;
-  border-radius: 50%;
+  border-radius: 50%; /* Makes it circular */
   padding: 2px 6px;
-  line-height: 1;
+  line-height: 1; /* Ensures vertical centering of text */
+  box-shadow: 0 0 5px rgba(230, 57, 70, 0.7); /* Subtle glow for count */
 }
 
 /* Mobile Menu Icon (Hamburger) */
@@ -279,6 +347,11 @@ body {
     height: auto; /* Allow height to adjust based on content */
     padding-bottom: 15px; /* Add bottom padding when wrapped */
     align-items: flex-start; /* Align items to the top in the wrapped layout */
+    /* Ensure fixed positioning is maintained for mobile as well */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 
   .navbar-container {
@@ -350,6 +423,14 @@ body {
     font-size: 19px;
     color: #0a192f;
   }
+  .nav-link::after { /* Adjust for mobile padding */
+    left: 50%; /* Center the line */
+    transform: translateX(-50%); /* Adjust to truly center */
+  }
+  .nav-link.active::after { /* Adjust for mobile padding */
+    left: 50%; /* Center the line */
+    transform: translateX(-50%); /* Adjust to truly center */
+  }
 
   .logout-btn {
     width: calc(100% - 60px); /* Adjust width to have some margin */
@@ -383,3 +464,192 @@ body {
     right: 8px; /* Adjust button position within search bar */
   }
 }
+
+/* ========================================================= */
+/* IMPORTANT: Content Padding for Fixed Navbar               */
+/* ========================================================= */
+/* This ensures your page content is not hidden by the fixed navbar.
+   You need to apply 'padding-top' to the main container that wraps all your routes in App.js.
+   The value should be equal to or slightly greater than your navbar's height.
+*/
+
+/* Example for App.js main container (e.g., <div className="main-app-content">) */
+/*
+.main-app-content {
+    padding-top: 80px; // Matches navbar height
+}
+@media (max-width: 768px) {
+    .main-app-content {
+        // Adjust if navbar height changes on mobile due to wrapping
+        // The mobile navbar height will be 'navbar-container' height + its padding
+        // You'll need to inspect this in browser dev tools.
+        padding-top: 110px;
+    }
+}
+*/
+
+/* For specific pages like ProductDetails, ensure their own top padding is sufficient. */
+/* You might already have it for .product-page-3d, just confirm the value. */
+
+.product-page-3d {
+    /* Your existing padding styles for desktop */
+    padding-top: 100px; /* Example: for desktop */
+}
+@media (max-width: 768px) {
+    .product-page-3d {
+        /* Adjust for mobile navbar height, considering it might become taller */
+        padding-top: 120px; /* Increased to accommodate a potentially taller mobile navbar */
+        padding-left: 20px; /* Ensure horizontal spacing on mobile product page */
+        padding-right: 20px;
+    }
+}
+@media (max-width: 480px) {
+    .product-page-3d {
+        /* Further fine-tune for very small phones */
+        padding-top: 110px; /* Adjusted for very small screens */
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+/* ========================================================= */
+/* NEW: GLOWING EFFECTS AND 3D ANIMATIONS (GLOBAL)           */
+/* ========================================================= */
+
+/* Keyframes for animations */
+
+/* Subtle pulse glow for logo on hover */
+@keyframes pulseLogoGlow {
+  0% { box-shadow: 0 0 10px rgba(0,123,255,0.4); }
+  50% { box-shadow: 0 0 20px rgba(0,123,255,0.7); }
+  100% { box-shadow: 0 0 10px rgba(0,123,255,0.4); }
+}
+
+/* Button subtle 3D press effect */
+@keyframes buttonPress {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.98); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+  100% { transform: scale(1); }
+}
+
+/* Global hover effect for interactive elements with a subtle lift */
+/* Note: This might conflict with more specific transforms, adjust as needed */
+.navbar-brand:hover,
+.mobile-menu-icon:hover {
+  transform: translateY(-2px); /* Slight lift */
+  transition: transform 0.2s ease-out;
+}
+
+/* Add subtle 3D transform on hover for main navigation links */
+/* Handled within .nav-link:hover directly */
+
+
+/* Enhance logout button with glow and press effect */
+.logout-btn {
+    /* Existing styles */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logout-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(220,53,69,0.5) 0%, transparent 70%);
+    transition: transform 0.5s ease-out;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.logout-btn:hover::before {
+    transform: scale(1);
+    animation: pulseGlowRed 1.5s infinite alternate; /* Red glow pulse */
+}
+
+@keyframes pulseGlowRed {
+  0% { box-shadow: 0 0 8px rgba(220,53,69,0.5); }
+  50% { box-shadow: 0 0 15px rgba(220,53,69,0.9); }
+  100% { box-shadow: 0 0 8px rgba(220,53,69,0.5); }
+}
+
+/* Apply 3D press effect to main buttons on click/tap */
+.search-bar button:active,
+.cart-icon:active,
+.mobile-menu-icon:active,
+.nav-link:active, /* Apply to nav links when active as well */
+.logout-btn:active { /* Also apply to logout button */
+  animation: buttonPress 0.2s ease forwards;
+}
+
+/* ProductDetails.css specific enhancements (as requested previously, keeping relevant for context) */
+/* Assuming these are in your ProductDetails.css file */
+
+/* Add a more pronounced inner glow to ProductInfoBox */
+.product-info-box {
+    /* Existing styles */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0,0,0,0.05); /* Deeper shadow */
+    transition: all 0.3s ease-in-out;
+    position: relative; /* Ensure z-index works for glow */
+    z-index: 1;
+}
+
+.product-info-box::after { /* Using ::after for an inner glow effect */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px; /* Match parent border-radius */
+    box-shadow: inset 0 0 20px rgba(0, 123, 255, 0.2); /* Soft inner blue glow */
+    pointer-events: none; /* Allow clicks through */
+    transition: box-shadow 0.3s ease-out;
+}
+
+.product-info-box:hover::after {
+    box-shadow: inset 0 0 40px rgba(0, 123, 255, 0.5); /* More intense inner glow on hover */
+}
+
+/* Enhance cart-btn-3d with a more dynamic glow and 3D hover */
+.cart-btn-3d {
+    /* Existing styles */
+    position: relative;
+    overflow: hidden; /* Hide overflowing glow */
+    transform-style: preserve-3d; /* Enable 3D transforms for children if needed */
+}
+
+.cart-btn-3d::before { /* For the dynamic glow */
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0,123,255,0.6) 0%, transparent 70%);
+    transform: scale(0);
+    transition: transform 0.5s ease-out;
+    z-index: -1;
+}
+
+.cart-btn-3d:hover::before {
+    transform: scale(1);
+    animation: pulseButtonGlow 1.5s infinite alternate; /* Pulsing blue glow */
+}
+
+@keyframes pulseButtonGlow {
+  0% { box-shadow: 0 0 15px rgba(0,123,255,0.5); }
+  50% { box-shadow: 0 0 25px rgba(0,123,255,0.9); }
+  100% { box-shadow: 0 0 15px rgba(0,123,255,0.5); }
+}
+
+.cart-btn-3d:hover {
+    transform: translateY(-5px) perspective(1000px) rotateX(5deg); /* More pronounced 3D lift on hover */
+    box-shadow: 0 20px 45px rgba(0, 123, 255, 0.5); /* Stronger shadow on hover */
+}
+
+/* Keep previous @keyframes for discount-tag-glow and floatCartBtn if desired */
+/* Ensure @keyframes pulseGlow and floatCartBtn are defined if you use them */
