@@ -254,10 +254,10 @@ body {
     background: #ff5722;
     color: white;
     border-radius: 50%;
-    padding: 3px 6px; /* Reduced padding for a smaller visual size */
+    padding: 3px; /* Reduced padding for a smaller visual size */
     font-size: 10px; /* Smaller font size for the number */
     min-width: 8px; /* Reduced minimum width */
-    height: 18px;    /* Reduced height to match min-width for circular shape */
+    height: 8px;    /* Reduced height to match min-width for circular shape */
     display: flex;
     align-items: center;
     justify-content: center;
