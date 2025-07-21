@@ -1,4 +1,3 @@
-// src/context/CartSidebar.js
 import React, { useState } from 'react';
 import '../pages/styles/CartSidebar.css';
 import { useCart } from './CartContext';
@@ -10,7 +9,7 @@ const CartSidebar = () => {
   const {
     cartItems,
     isCartOpen,
-    closeCart,
+    closeCart, // ✅ Make sure closeCart is available from useCart()
     removeFromCart,
   } = useCart();
 
@@ -31,50 +30,45 @@ const CartSidebar = () => {
   const total = subtotal - discount;
 
   const handleSubmit = () => {
-    const { name, phone, address, location, email } = formData; // Destructure email as well
+    const { name, phone, address, location, email } = formData;
 
     if (!name || !phone || !address) {
       alert('Please fill all required fields (Name, Phone, Address)');
       return;
     }
 
-    // Generate Invoice ID here, so it's available for both WhatsApp and PDF
     const invoiceId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
-    // You can remove the upiLink if it's not needed for any other purpose anymore.
-    // const upiLink = `upi://pay?pa=7207097501@axl&pn=${encodeURIComponent(name)}&am=${total.toFixed(2)}&cu=INR`;
-
 
     const whatsappMessage = `🧾 *VaidyaSthana Order Details*\n\n` +
-                            `*Invoice ID:* ${invoiceId}\n\n` + // ✨ Added Invoice ID
-                            `👤 Name: ${name}\n` +
-                            `📞 Phone: ${phone}\n` +
-                            `🏠 Address: ${address}\n` +
-                            `${location ? `📍 Location: ${location}\n` : ''}` +
-                            `\n🛍️ *Items:*\n` +
-                            `${cartItems
-                              .map(
-                                (item, i) =>
-                                  `${i + 1}. ${item.name} x${item.quantity} = ₹${(
-                                    item.price - (item.price * item.discountPercent) / 100
-                                  ).toFixed(2)}`
-                              )
-                              .join('\n')}\n\n` +
-                            `🧮 Subtotal: ₹${subtotal.toFixed(2)}\n` +
-                            `💸 Discount: ₹${discount.toFixed(2)}\n` +
-                            `🧾 *Total: ₹${total.toFixed(2)}*`; // ✨ Removed "Pay Now" link
+                              `*Invoice ID:* ${invoiceId}\n\n` +
+                              `👤 Name: ${name}\n` +
+                              `📞 Phone: ${phone}\n` +
+                              `🏠 Address: ${address}\n` +
+                              `${location ? `📍 Location: ${location}\n` : ''}` +
+                              `\n🛍️ *Items:*\n` +
+                              `${cartItems
+                                .map(
+                                  (item, i) =>
+                                    `${i + 1}. ${item.name} x${item.quantity} = ₹${(
+                                      item.price - (item.price * item.discountPercent) / 100
+                                    ).toFixed(2)}`
+                                )
+                                .join('\n')}\n\n` +
+                              `🧮 Subtotal: ₹${subtotal.toFixed(2)}\n` +
+                              `💸 Discount: ₹${discount.toFixed(2)}\n` +
+                              `🧾 *Total: ₹${total.toFixed(2)}*`;
 
-
-    const phoneNumber = '919396951724'; // The WhatsApp recipient number
+    const phoneNumber = '919396951724';
     const encoded = encodeURIComponent(whatsappMessage);
 
-    // Generate PDF with QRS - Pass invoiceId to the function
-    generateInvoicePDF(formData, cartItems, subtotal, discount, total, invoiceId); // ✨ Pass invoiceId
+    // Generate PDF with QR - Pass invoiceId to the function
+    generateInvoicePDF(formData, cartItems, subtotal, discount, total, invoiceId);
 
     // Open WhatsApp
     window.open(`https://wa.me/${phoneNumber}?text=${encoded}`, '_blank');
 
-    setFormVisible(false);
-    closeCart();
+    setFormVisible(false); // Close the form after submission
+    closeCart(); // Close the cart sidebar after submission
   };
 
   return (
@@ -109,7 +103,13 @@ const CartSidebar = () => {
               <p style={{ color: '#E63946' }}>Discount: ₹{discount.toFixed(2)}</p>
               <h4 style={{ color: '#007f5f' }}>Total: ₹{total.toFixed(2)}</h4>
             </div>
-            <button className="whatsapp-checkout" onClick={() => setFormVisible(true)}>
+            <button
+              className="whatsapp-checkout"
+              onClick={() => {
+                setFormVisible(true); // Open the form
+                closeCart(); // ✅ Close the cart sidebar here
+              }}
+            >
               Place Order 📝
             </button>
           </div>
