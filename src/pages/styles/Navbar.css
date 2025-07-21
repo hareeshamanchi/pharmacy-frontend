@@ -20,8 +20,7 @@ body {
     z-index: 9999;
     display: flex;
     align-items: center;
-    /* Re-enabled and adjusted for faster animation: */
-    transition: top 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition: top 0.2s ease-in-out, box-shadow 0.3s ease-in-out; /* Faster hide/show animation */
     font-family: 'Inter', sans-serif; /* A modern, clean font */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lighter, subtle shadow */
 }
@@ -72,7 +71,7 @@ body {
 .search-bar input {
     flex-grow: 1;
     padding: 14px 25px; /* More padding for a substantial feel */
-    padding-right: 25px; /* ✅ Adjusted padding-right - no button to make space for */
+    padding-right: 60px; /* ✅ Adjusted padding-right for the button */
     border-radius: 40px; /* Fully rounded pill shape */
     border: none !important; /* FORCE NO BORDER */
     outline: none !important; /* FORCE NO OUTLINE */
@@ -93,12 +92,39 @@ body {
     box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Blue glow */
 }
 
-/* Removed the .search-bar button styles entirely as the button is gone */
-/*
-.search-bar button { ... }
-.search-bar button:hover { ... }
-.search-bar button svg { ... }
-*/
+.search-bar button {
+    padding: 0; /* Remove padding to let icon size control button size */
+    width: 40px; /* ✅ Smaller button width */
+    height: 40px; /* ✅ Smaller button height */
+    background: transparent; /* ✅ Transparent background */
+    color: #007bff; /* ✅ Blue icon color */
+    border: none; /* ✅ No border */
+    border-radius: 50%; /* Make it perfectly circular */
+    margin-left: -45px; /* ✅ Adjusted overlap for smaller button */
+    cursor: pointer;
+    transition: all 0.2s ease; /* Faster transition for button hover */
+    font-size: 20px; /* ✅ Smaller font-size for icon (FaSearch scales to this) */
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none; /* ✅ No initial shadow */
+}
+
+.search-bar button:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* ✅ Subtle blue background on hover */
+    transform: scale(1.1); /* Subtle scale on hover */
+    box-shadow: none; /* No shadow on hover for a cleaner look */
+    color: #0056b3; /* Darker blue on hover */
+}
+
+.search-bar button svg { /* Style for the FaSearch SVG icon inside the button */
+    width: 100%; /* Make SVG fill button width */
+    height: 100%; /* Make SVG fill button height */
+    fill: currentColor; /* Inherit color from parent button */
+    transition: fill 0.2s ease;
+}
+
 
 .search-suggestions {
     position: absolute;
@@ -111,7 +137,7 @@ body {
     border-radius: 10px;
     max-height: 300px;
     overflow-y: auto;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Lighter, softer shadow */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     border-top: none !important;
 }
 .search-suggestions li {
@@ -127,7 +153,7 @@ body {
 }
 .search-suggestions li:hover,
 .search-suggestions li.highlighted {
-    background-color: #e6f7ff; /* Light blue highlight */
+    background-color: #e6f7ff;
     color: #0a192f;
 }
 
@@ -142,20 +168,20 @@ body {
 }
 
 .nav-link {
-    color: #0a192f; /* Dark text for links */
+    color: #0a192f;
     text-decoration: none;
     font-size: 17.5px;
     padding: 10px 0;
     position: relative;
-    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
     font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav-link::after {
     content: '';
     width: 0%;
     height: 3px;
-    background: #007bff; /* Blue underline */
+    background: #007bff;
     position: absolute;
     bottom: -8px;
     left: 0;
@@ -167,24 +193,24 @@ body {
 }
 .nav-link:hover,
 .nav-link.active {
-    color: #0056b3; /* Darker blue on hover/active */
+    color: #0056b3;
     transform: translateY(-4px);
-    text-shadow: 0 0 5px rgba(0, 123, 255, 0.3); /* Subtle blue glow */
+    text-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
 .logout-btn {
-    background: #dc3545; /* Red logout button */
+    background: #dc3545;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
     transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 600;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 .logout-btn:hover {
@@ -198,12 +224,12 @@ body {
     position: relative;
     margin-left: 35px;
     cursor: pointer;
-    color: #0a192f; /* Dark color for the icon */
+    color: #0a192f;
     transition: transform 0.2s ease, color 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    padding: 5px; /* Keep padding for the clickable area */
     width: 30px;
     height: 30px;
 }
@@ -217,28 +243,31 @@ body {
 
 .cart-icon:hover {
     transform: scale(1.2);
-    color: #007bff; /* Blue on hover */
+    color: #007bff;
 }
+
+/* Updated Cart Count Styles for a Smaller Number */
 .cart-count {
     position: absolute;
-    top: -10px;
-    right: -10px;
-    background: #ff5722; /* Vibrant orange for count */
+    top: -2px;   /* Adjusted to move it slightly higher, fine-tune as needed */
+    right: -4px; /* Adjusted to move it slightly more to the left, fine-tune as needed */
+    background: #ff5722;
     color: white;
     border-radius: 50%;
-    padding: 5px 8px;
-    font-size: 12px;
-    min-width: 24px;
-    height: 24px;
+    padding: 3px 6px; /* Reduced padding for a smaller visual size */
+    font-size: 10px; /* Smaller font size for the number */
+    min-width: 8px; /* Reduced minimum width */
+    height: 18px;    /* Reduced height to match min-width for circular shape */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Lighter shadow */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     font-weight: 700;
-    border: 1.5px solid #e0f2f7; /* Border matching navbar background */
+    border: 1.5px solid #e0f2f7;
 }
 
+/* Rest of your CSS remains unchanged */
 /* Mobile Menu Icon (Hamburger) */
 .mobile-menu-icon {
     display: none;
@@ -252,7 +281,7 @@ body {
 .bar {
     width: 32px;
     height: 4px;
-    background: #0a192f; /* Dark bars for contrast */
+    background: #0a192f;
     transition: all 0.3s ease-in-out;
     border-radius: 3px;
 }
@@ -278,23 +307,23 @@ body {
         max-width: 350px;
         margin: 0 25px;
     }
+    .search-bar input {
+        padding: 12px 20px;
+        font-size: 16px;
+        padding-right: 60px; /* Adjusted for button on smaller screens */
+    }
+    .search-bar button { /* Adjusted button size for smaller screens */
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        margin-left: -40px;
+    }
     .nav-menu {
         gap: 25px;
     }
     .navbar-logo {
         font-size: 1.8rem;
     }
-    .search-bar input {
-        padding: 12px 20px;
-        font-size: 16px;
-    }
-    /* Removed .search-bar button media queries */
-    /*
-    .search-bar button {
-        padding: 11px 20px;
-        font-size: 18px;
-    }
-    */
     .cart-icon {
         width: 28px;
         height: 28px;
@@ -340,23 +369,15 @@ body {
     .search-bar input {
         width: 100%;
         box-sizing: border-box;
-        padding-right: 25px; /* ✅ Adjusted for no button */
+        padding-right: 60px; /* Adjusted for button on mobile */
     }
-    /* Removed .search-bar button media queries */
-    /*
-    .search-bar button {
-        position: absolute;
+    .search-bar button { /* Adjusted button size for mobile */
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
         right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
         margin-left: 0;
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        font-size: 22px;
-        padding: 0;
     }
-    */
     .search-suggestions {
         width: calc(100% - 40px);
         left: 20px;
@@ -366,7 +387,7 @@ body {
         order: 5;
         flex-direction: column;
         align-items: center;
-        background-color: #f7fcfd; /* Lighter background for mobile menu */
+        background-color: #f7fcfd;
         width: 100%;
         position: absolute;
         top: 80px;
@@ -417,5 +438,14 @@ body {
     .bar {
         width: 28px;
         height: 3px;
+    }
+    .search-bar input {
+        padding-right: 55px; /* Final adjustment for very small screens */
+    }
+    .search-bar button { /* Adjusted button size for very small screens */
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        right: 8px;
     }
 }

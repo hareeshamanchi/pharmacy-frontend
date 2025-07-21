@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { FaShoppingCart } from 'react-icons/fa'; // Removed FaSearch as it's no longer used
+import { FaShoppingCart, FaSearch } from 'react-icons/fa'; // ✅ Re-import FaSearch
 
 import api from '../utils/api';
 import '../pages/styles/Navbar.css';
@@ -102,7 +102,9 @@ const Navbar = () => {
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
           />
-          {/* Removed the button completely as per your request */}
+          <button type="submit">
+            <FaSearch /> {/* ✅ Re-added search button with FaSearch icon */}
+          </button>
           {suggestions.length > 0 && (
             <ul className="search-suggestions">
               {suggestions.map((sugg, index) => (
