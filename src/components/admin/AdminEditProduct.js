@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import api from '../../utils/api';// ✅ updated import
 import './AdminEditProduct.css';
 
 const AdminEditProduct = () => {
@@ -24,7 +24,7 @@ const AdminEditProduct = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const { data } = await axios.get(`/api/products/${productId}`);
+        const { data } = await api.get(`/api/products/${productId}`);
         setProduct(data);
         setForm({
           drugName: data.drugName || '',
@@ -67,8 +67,10 @@ const AdminEditProduct = () => {
         }
       });
 
-      await axios.put(`/api/products/${productId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      await api.put(`/api/products/by-product-id/${productId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       navigate('/admin/dashboard');
@@ -111,7 +113,7 @@ const AdminEditProduct = () => {
             required
           />
 
-          <label>Price:</label>
+          <label>Price (₹):</label>
           <input
             type="number"
             name="price"
@@ -120,7 +122,7 @@ const AdminEditProduct = () => {
             required
           />
 
-          <label>Discount:</label>
+          <label>Discount (%):</label>
           <input
             type="number"
             name="discount"
