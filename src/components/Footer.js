@@ -41,7 +41,7 @@ const Footer = () => {
           <h4>Visit Us</h4>
           <iframe
             title="PharmaCare Location"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.1976938436964!2d78.5034691!3d17.4383235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb98063b81ae4d%3A0xa7b4c4fa74d5d9!2sIV-5-3-2%2C%20Marpuri%20St%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1689990000000!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15250.709328221657!2d78.4839846279183!3d13.560183179246887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb2b272d1f7e03b%3A0x6d1f9a5d3f2d2b5!2sGanesh%20HosapitaK!5e0!3m2!1sen!2sin!4v1705350438183!5m2!1sen!2sin" // Updated Google Maps embed URL
             width="100%"
             height="180"
             style={{ border: 0, borderRadius: '10px' }}
@@ -52,7 +52,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} PharmaCare. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} PharmaCare. All rights reserved.</p>
       </div>
     </footer>
   );
