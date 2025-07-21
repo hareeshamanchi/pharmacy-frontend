@@ -222,7 +222,7 @@ body {
 /* Cart Icon */
 .cart-icon {
     position: relative;
-    margin-left: 35px;
+    /* margin-left: 35px; <= REMOVE THIS IF YOU MOVED IT INSIDE THE LIST ITEM */
     cursor: pointer;
     color: #0a192f;
     transition: transform 0.2s ease, color 0.2s ease;
@@ -249,7 +249,7 @@ body {
 /* Updated Cart Count Styles for a Smaller Number */
 .cart-count {
     position: absolute;
-    top: -2px;   /* Adjusted to move it slightly higher, fine-tune as needed */
+    top: -2px;    /* Adjusted to move it slightly higher, fine-tune as needed */
     right: -4px; /* Adjusted to move it slightly more to the left, fine-tune as needed */
     background: #ff5722;
     color: white;
@@ -257,7 +257,7 @@ body {
     padding: 3px; /* Reduced padding for a smaller visual size */
     font-size: 10px; /* Smaller font size for the number */
     min-width: 8px; /* Reduced minimum width */
-    height: 8px;    /* Reduced height to match min-width for circular shape */
+    height: 8px;     /* Reduced height to match min-width for circular shape */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -324,10 +324,10 @@ body {
     .navbar-logo {
         font-size: 1.8rem;
     }
-    .cart-icon {
-        width: 28px;
-        height: 28px;
-    }
+    /* .cart-icon { <= REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
+        /* width: 28px; */
+        /* height: 28px; */
+    /* } */
 }
 
 @media screen and (max-width: 768px) {
@@ -353,12 +353,13 @@ body {
         order: 3;
         margin-left: 20px;
     }
-    .cart-icon {
-        order: 2;
-        margin-left: auto;
-        width: 28px;
-        height: 28px;
-    }
+    /* REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
+    /* .cart-icon { */
+    /* order: 2; */
+    /* margin-left: auto; */
+    /* width: 28px; */
+    /* height: 28px; */
+    /* } */
     .search-bar {
         order: 4;
         width: 100%;
@@ -428,10 +429,10 @@ body {
     .navbar-logo {
         font-size: 1.4rem;
     }
-    .cart-icon {
-        width: 24px;
-        height: 24px;
-    }
+    /* .cart-icon { <= REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
+        /* width: 24px; */
+        /* height: 24px; */
+    /* } */
     .mobile-menu-icon {
         gap: 6px;
     }
