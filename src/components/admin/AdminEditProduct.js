@@ -1,94 +1,159 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './AdminDashboard.css';
-import api from '../../utils/api';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import './AdminEditProduct.css';
 
-const AdminDashboard = () => {
-  const [products, setProducts] = useState([]);
-  const [error, setError] = useState('');
+const AdminEditProduct = () => {
+  const { productId } = useParams();
   const navigate = useNavigate();
 
+  const [product, setProduct] = useState(null);
+  const [form, setForm] = useState({
+    drugName: '',
+    brandName: '',
+    description: '',
+    price: '',
+    discount: '',
+    tabletsPerSheet: '',
+    category: '',
+    image: null,
+  });
+  const [preview, setPreview] = useState(null);
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    const isAdminAuthenticated = localStorage.getItem('adminAuthenticated');
-    if (!isAdminAuthenticated) {
-      navigate('/admin/login');
-    } else {
-      fetchProducts();
-    }
-  }, [navigate]);
+    const fetchProduct = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${productId}`);
+        setProduct(data);
+        setForm({
+          drugName: data.drugName || '',
+          brandName: data.brandName || '',
+          description: data.description || '',
+          price: data.price || '',
+          discount: data.discount || '',
+          tabletsPerSheet: data.tabletsPerSheet || '',
+          category: data.category || '',
+          image: null,
+        });
+      } catch (err) {
+        console.error(err);
+        setError('❌ Failed to load product data');
+      }
+    };
+    fetchProduct();
+  }, [productId]);
 
-  const fetchProducts = async () => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setForm((prev) => ({ ...prev, image: file }));
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await api.get('/api/admin/products');
-      setProducts(response.data);
+      const formData = new FormData();
+      Object.entries(form).forEach(([key, value]) => {
+        if (value !== null && value !== '') {
+          formData.append(key, value);
+        }
+      });
+
+      await axios.put(`/api/products/${productId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      navigate('/admin/dashboard');
     } catch (err) {
-      setError('Failed to load products');
+      console.error(err);
+      setError('❌ Failed to update product');
     }
-  };
-
-  const handleDelete = async (productId) => {
-    if (!window.confirm(`Delete ${productId}?`)) return;
-    try {
-      await api.delete(`/api/admin/products/${productId}`);
-      fetchProducts();
-    } catch {
-      setError('Failed to delete product');
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuthenticated');
-    navigate('/admin/login');
   };
 
   return (
-    <div className="admin-dashboard">
-      <div className="dashboard-header">
-        <h1>🛠️ Admin Dashboard</h1>
-        <button className="logout-btn" onClick={handleLogout}>💛 Logout</button>
-      </div>
+    <div className="edit-product-container">
+      <h2>Edit Product</h2>
+      {error && <div className="error-message">{error}</div>}
 
-      <p className="subtitle">Manage your product catalog with ease</p>
+      {product && (
+        <form className="edit-form" onSubmit={handleSubmit}>
+          <label>Drug Name:</label>
+          <input
+            type="text"
+            name="drugName"
+            value={form.drugName}
+            onChange={handleChange}
+            required
+          />
 
-      <button className="add-product-btn" onClick={() => navigate('/admin/add-product')}>
-        ➕ Add New Product
-      </button>
+          <label>Brand Name:</label>
+          <input
+            type="text"
+            name="brandName"
+            value={form.brandName}
+            onChange={handleChange}
+            required
+          />
 
-      {error && <p className="error">{error}</p>}
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={form.description}
+            onChange={handleChange}
+            required
+          />
 
-      <div className="table-container">
-        <table className="product-table">
-          <thead>
-            <tr>
-              <th>ID</th><th>Drug</th><th>Brand</th><th>Price</th>
-              <th>Discount</th><th>Category</th><th>Image</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.length === 0 ? (
-              <tr><td colSpan="8">Loading...</td></tr>
-            ) : (
-              products.map(prod => (
-                <tr key={prod.productId}>
-                  <td>{prod.productId}</td>
-                  <td>{prod.drugName}</td>
-                  <td>{prod.brandName}</td>
-                  <td>₹{prod.price}</td>
-                  <td>{prod.discount}%</td>
-                  <td>{prod.category}</td>
-                  <td><img src={prod.imageUrl} alt="" className="thumb" /></td>
-                  <td>
-                    <button className="edit-btn" onClick={() => navigate(`/admin/edit/${prod.productId}`)}>✏️</button>
-                    <button className="delete-btn" onClick={() => handleDelete(prod.productId)}>🗑️</button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+          <label>Price:</label>
+          <input
+            type="number"
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Discount:</label>
+          <input
+            type="number"
+            name="discount"
+            value={form.discount}
+            onChange={handleChange}
+          />
+
+          <label>Tablets Per Sheet:</label>
+          <input
+            type="number"
+            name="tabletsPerSheet"
+            value={form.tabletsPerSheet}
+            onChange={handleChange}
+          />
+
+          <label>Category:</label>
+          <input
+            type="text"
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            required
+          />
+
+          <label>📁 Upload New Image:</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {preview && <img src={preview} alt="Preview" className="image-preview" />}
+
+          <button type="submit" className="update-button">💾 Update Product</button>
+        </form>
+      )}
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminEditProduct;

@@ -1,101 +1,64 @@
-.admin-edit-product {
+/* Container & Header */
+.edit-product-container {
   max-width: 600px;
   margin: 30px auto;
-  background: #f9f9f9;
   padding: 25px;
+  background: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
 }
-
-.edit-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.edit-product-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.back-btn {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
+/* Back link/button */
+.edit-back-link {
+  text-decoration: none;
+  font-size: 18px;
+  display: inline-block;
+  margin-bottom: 15px;
   color: #333;
 }
-
-.admin-edit-form input,
-.admin-edit-form textarea {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
+.edit-back-link:hover {
+  color: #555;
 }
 
-.admin-edit-form textarea {
+/* Form & Inputs */
+.edit-product-form {
+  display: flex;
+  flex-direction: column;
+}
+.edit-product-form label {
+  font-weight: 500;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+.edit-product-form input[type="text"],
+.edit-product-form input[type="number"],
+.edit-product-form textarea {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 100%;
+}
+.edit-product-form textarea {
   min-height: 80px;
   resize: vertical;
 }
 
-.file-upload-label {
-  display: inline-block;
-  margin-top: 10px;
-  margin-bottom: 8px;
-  color: #007bff;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-input[type="file"] {
-  display: block;
-  margin-bottom: 12px;
-}
-
-.uploaded-image-preview {
-  margin: 10px 0;
-  text-align: left;
-}
-
-.uploaded-image-preview img.thumb {
-  height: 80px;
-  margin-top: 4px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button[type="submit"] {
-  padding: 10px 18px;
-  background: #28a745;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.success-msg {
-  color: green;
-  font-weight: 500;
-  margin-top: 10px;
-}
-
-.error-msg {
-  color: red;
-  font-weight: 500;
-  margin-top: 10px;
-}
-
-/* Custom File Upload */
+/* File upload */
 .custom-file-upload {
-  position: relative;
   display: inline-block;
+  margin-top: 8px;
   margin-bottom: 12px;
+  position: relative;
 }
-
 .custom-file-upload input[type="file"] {
   display: none;
 }
-
 .upload-btn {
   background-color: #f1f1f1;
   border: 1px solid #ccc;
@@ -107,10 +70,52 @@ button[type="submit"] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
-
 .upload-btn:hover {
   background-color: #e2e2e2;
   border-color: #aaa;
+}
+.uploaded-image-preview {
+  margin: 10px 0;
+}
+.uploaded-image-preview img.thumb {
+  max-height: 80px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* Submit button */
+.save-btn {
+  margin-top: 20px;
+  padding: 12px 18px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.save-btn:hover {
+  background: #218838;
+}
+
+/* Loading / Error messages */
+.edit-loading,
+.edit-error {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+.edit-error {
+  color: #c0392b;
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .edit-product-container {
+    padding: 15px;
+  }
 }

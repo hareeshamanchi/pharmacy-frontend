@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import '../pages/styles/CartSidebar.css';
 import { useCart } from './CartContext';
+// Import generateInvoicePDF function
 import { generateInvoicePDF } from '../utils/invoiceGenerator';
 import FloatingOrderForm from '../components/FloatingOrderForm';
 
@@ -19,6 +20,7 @@ const CartSidebar = () => {
     phone: '',
     address: '',
     location: '',
+    email: '', // Ensure email is part of formData if you're using it
   });
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -29,33 +31,44 @@ const CartSidebar = () => {
   const total = subtotal - discount;
 
   const handleSubmit = () => {
-    const { name, phone, address, location } = formData;
+    const { name, phone, address, location, email } = formData; // Destructure email as well
 
     if (!name || !phone || !address) {
-      alert('Please fill all fields');
+      alert('Please fill all required fields (Name, Phone, Address)');
       return;
     }
 
-    const upiLink = `upi://pay?pa=7207097501@axl&pn=${encodeURIComponent(name)}&am=${total.toFixed(2)}&cu=INR`;
+    // Generate Invoice ID here, so it's available for both WhatsApp and PDF
+    const invoiceId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
+    // You can remove the upiLink if it's not needed for any other purpose anymore.
+    // const upiLink = `upi://pay?pa=7207097501@axl&pn=${encodeURIComponent(name)}&am=${total.toFixed(2)}&cu=INR`;
 
-    const whatsappMessage = `🧾 *VaidyaSthana Order Details*\n\n👤 Name: ${name}\n📞 Phone: ${phone}\n🏠 Address: ${address}${
-      location ? `\n📍 Location: ${location}` : ''
-    }\n\n🛍️ *Items:*\n${cartItems
-      .map(
-        (item, i) =>
-          `${i + 1}. ${item.name} x${item.quantity} = ₹${(
-            item.price - (item.price * item.discountPercent) / 100
-          ).toFixed(2)}`
-      )
-      .join('\n')}\n\n🧮 Subtotal: ₹${subtotal.toFixed(2)}\n💸 Discount: ₹${discount.toFixed(
-      2
-    )}\n🧾 Total: ₹${total.toFixed(2)}\n\n💳 *Pay Now:* ${upiLink}`;
 
-    const phoneNumber = '919396951724';
+    const whatsappMessage = `🧾 *VaidyaSthana Order Details*\n\n` +
+                            `*Invoice ID:* ${invoiceId}\n\n` + // ✨ Added Invoice ID
+                            `👤 Name: ${name}\n` +
+                            `📞 Phone: ${phone}\n` +
+                            `🏠 Address: ${address}\n` +
+                            `${location ? `📍 Location: ${location}\n` : ''}` +
+                            `\n🛍️ *Items:*\n` +
+                            `${cartItems
+                              .map(
+                                (item, i) =>
+                                  `${i + 1}. ${item.name} x${item.quantity} = ₹${(
+                                    item.price - (item.price * item.discountPercent) / 100
+                                  ).toFixed(2)}`
+                              )
+                              .join('\n')}\n\n` +
+                            `🧮 Subtotal: ₹${subtotal.toFixed(2)}\n` +
+                            `💸 Discount: ₹${discount.toFixed(2)}\n` +
+                            `🧾 *Total: ₹${total.toFixed(2)}*`; // ✨ Removed "Pay Now" link
+
+
+    const phoneNumber = '919396951724'; // The WhatsApp recipient number
     const encoded = encodeURIComponent(whatsappMessage);
 
-    // Generate PDF with QRS
-    generateInvoicePDF(formData, cartItems, subtotal, discount, total);
+    // Generate PDF with QRS - Pass invoiceId to the function
+    generateInvoicePDF(formData, cartItems, subtotal, discount, total, invoiceId); // ✨ Pass invoiceId
 
     // Open WhatsApp
     window.open(`https://wa.me/${phoneNumber}?text=${encoded}`, '_blank');
@@ -115,4 +128,4 @@ const CartSidebar = () => {
   );
 };
 
-export default CartSidebar
+export default CartSidebar;
