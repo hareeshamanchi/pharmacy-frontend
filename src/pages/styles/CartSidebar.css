@@ -39,7 +39,7 @@
 .cart-header h3 {
   margin: 0;
   font-size: 26px; /* Larger, more prominent heading */
-  color: #1a2a6c; /* Deep blue from your hero section */
+  color: #007f5f; /* Deep green for Vaidyassthana branding */
   font-weight: 700; /* Bolder */
   display: flex; /* For aligning icon and text */
   align-items: center;
@@ -110,7 +110,7 @@
 
 .cart-item .price-info span {
   font-weight: 600;
-  color: #1a2a6c; /* Consistent dark blue for price */
+  color: #007f5f; /* Consistent dark green for price */
 }
 
 .cart-item .price-info .discount-percent {
@@ -195,7 +195,7 @@
   border-radius: 10px; /* More rounded button */
   cursor: pointer;
   margin-top: 25px; /* More space above button */
-  margin-bottom: 20px; /* ✨ IMPORTANT: Added margin-bottom here */
+  margin-bottom: 15px; /* Adjusted margin-bottom to prevent cutoff */
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   display: flex; /* For icon and text alignment */
   justify-content: center;
@@ -210,11 +210,6 @@
 }
 
 /* Form styles (FloatingOrderForm) */
-/*
-  These styles are for the FloatingOrderForm component, which is conditionally rendered.
-  Ideally, these would be in their own FloatingOrderForm.css if it's a separate component.
-  However, for a complete file, they are included here.
-*/
 .floating-order-form-overlay {
   position: fixed;
   top: 0;
@@ -242,7 +237,7 @@
 
 .floating-order-form-content h4 {
   font-size: 24px;
-  color: #1a2a6c;
+  color: #007f5f; /* Consistent green for form heading */
   margin-bottom: 25px;
   text-align: center;
   font-weight: 700;
@@ -327,7 +322,6 @@ textarea {
   color: #dc3545;
 }
 
-
 /* Scrollbar */
 .cart-body::-webkit-scrollbar {
   width: 8px; /* Wider scrollbar */
@@ -364,7 +358,8 @@ textarea {
     width: 100%; /* Full width on small phones */
     max-width: 100%;
     border-radius: 0; /* No border-radius on full width */
-    padding: 20px 15px 30px; /* Adjusted bottom padding for mobile */
+    /* *** MODIFIED THIS LINE FOR LEFT CUTOFF FIX *** */
+    padding: 20px 20px 30px; /* Increased left/right padding to 20px */
   }
 
   .cart-header h3 {
@@ -391,7 +386,8 @@ textarea {
   .checkout-form button {
     padding: 12px 15px;
     font-size: 15px;
-    margin-bottom: 15px; /* Adjusted mobile specific margin */
+    /* *** MODIFIED THIS LINE FOR BOTTOM CUTOFF FIX *** */
+    margin-bottom: 10px; /* Adjusted mobile specific margin to prevent bottom cutoff */
   }
 
   .floating-order-form-content {

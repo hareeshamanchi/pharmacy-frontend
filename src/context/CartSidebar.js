@@ -39,6 +39,7 @@ const CartSidebar = () => {
 
     const invoiceId = 'INV-' + Math.floor(100000 + Math.random() * 900000);
 
+    // Updated WhatsApp message to reflect "VaidyaSthana"
     const whatsappMessage = `🧾 *VaidyaSthana Order Details*\n\n` +
                               `*Invoice ID:* ${invoiceId}\n\n` +
                               `👤 Name: ${name}\n` +
