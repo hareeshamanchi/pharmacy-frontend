@@ -44,18 +44,24 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
   doc.text(`IFSC: ${PHARMACY_IFSC}`, pageWidth - 200, 120);
   doc.text(`UPI: ${PHARMACY_UPI_ID}`, pageWidth - 200, 135);
 
-  // Billing Info
+  // Billing Info (Left side)
   doc.setFont('helvetica', 'bold');
   doc.text('Bill To:', margin, 165);
   doc.setFont('helvetica', 'normal');
   doc.text(`Name: ${formData.name}`, margin, 180);
   doc.text(`Phone: ${formData.phone}`, margin, 195);
-  doc.text(`Address: ${formData.address}`, margin, 210);
-  doc.text(`Email: ${formData.email}`, margin, 225);
 
-  let currentYForBilling = 225;
+  // Use doc.splitTextToSize for address to handle long addresses
+  const addressLines = doc.splitTextToSize(`Address: ${formData.address}`, (pageWidth / 2) - margin - 50); // Give it half page width roughly, minus margins
+  doc.text(addressLines, margin, 210);
+
+  // Determine the max Y position used by the billing info block on the left
+  let currentYForBilling = 210 + (addressLines.length * doc.internal.getFontSize() * 1.2); // Add lines height + some padding
+  doc.text(`Email: ${formData.email}`, margin, currentYForBilling);
+  currentYForBilling += 15; // Space for next line
+
+  // Google Maps Link for Location
   if (formData.location && formData.location.startsWith('http')) {
-    currentYForBilling += 15;
     const linkText = 'View Delivery Location on Map';
     const linkUrl = formData.location;
     doc.setTextColor(0, 0, 255);
@@ -63,38 +69,50 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
     doc.setTextColor(0, 0, 0);
     currentYForBilling += 10;
   } else if (formData.location) {
-    currentYForBilling += 15;
     doc.text(`Delivery Location: ${formData.location}`, margin, currentYForBilling);
     currentYForBilling += 10;
   }
+  currentYForBilling += 10; // Extra padding below billing section
 
-  doc.text('GSTIN: 27AUHPA739P1ZM', pageWidth - 250, 180);
-  doc.text('Place of Supply: Andhra Pradesh (27)', pageWidth - 250, 195);
-  doc.text('Reverse Charge: Not Applicable', pageWidth - 250, 210);
 
-  const tableStartY = Math.max(240, currentYForBilling + 20);
+  // GST Details (Right side) - Adjust Y positions here
+  const gstDetailsX = pageWidth - 250; // X position for GST details
+  const gstStartY = 180; // Start Y for GST details
+
+  // Calculate the lowest point of the 'Bill To' section
+  // Add a buffer to ensure no overlap even with multiline address or link
+  const minimumGstY = Math.max(gstStartY, currentYForBilling + 10); // Ensure GST starts well below Bill To
+
+  doc.text('GSTIN: 27AUHPA739P1ZM', gstDetailsX, minimumGstY);
+  doc.text('Place of Supply: Andhra Pradesh (27)', gstDetailsX, minimumGstY + 15);
+  doc.text('Reverse Charge: Not Applicable', gstDetailsX, minimumGstY + 30);
+
+
+  // Adjust table startY based on the lowest point used by either billing or GST details
+  const tableStartY = Math.max(currentYForBilling + 20, minimumGstY + 45); // Ensure table starts below both sections
+
 
   // Table Rows
   const tableBody = cartItems.map((item, index) => {
     const price = parseFloat(item.price || 0);
-    const discountPercent = parseFloat(item.discount || 0); // Use item.discount directly
+    const discountPercent = parseFloat(item.discount || 0);
     const gst = 12; // Assuming fixed GST for now
     const discountedPrice = price - (price * discountPercent / 100);
 
     return [
       `${index + 1}`,
       item.productId || 'N/A',
-      item.drugName, // Changed from item.name
-      item.brandName || '---', // Changed from item.company
+      item.drugName,
+      item.brandName || '---',
       '3004', // HSN - assuming static or retrieve from item
       '---', // Batch - assuming static or retrieve from item
-      item.tabletsPerSheet ? `1x${item.tabletsPerSheet}` : '---', // Pack
+      item.tabletsPerSheet ? `1x${item.tabletsPerSheet}` : '---',
       '12/25', // Expiry - assuming static or retrieve from item
       item.quantity || '1',
       `Rs. ${price.toFixed(2)}`,
       `${discountPercent}%`,
       `${gst}%`,
-      `Rs. ${(discountedPrice * (item.quantity || 1)).toFixed(2)}` // Total amount for item, including quantity
+      `Rs. ${(discountedPrice * (item.quantity || 1)).toFixed(2)}`
     ];
   });
 
@@ -166,21 +184,19 @@ export const generateInvoicePDF = async (formData, cartItems, subtotal, discount
 
 
   // Save PDF locally
-  doc.save(`${formData.name}_Invoice_${invoiceId}.pdf`); // Added invoiceId to filename
+  doc.save(`${formData.name}_Invoice_${invoiceId}.pdf`);
 
   // Convert PDF to blob
   const pdfBlob = doc.output('blob');
 
   // Upload and email to backend
   const form = new FormData();
-  form.append('file', pdfBlob, `${formData.name}_Invoice_${invoiceId}.pdf`); // Added invoiceId to filename
+  form.append('file', pdfBlob, `${formData.name}_Invoice_${invoiceId}.pdf`);
   form.append('customerEmail', formData.email);
-  form.append('invoiceId', invoiceId); // Pass invoiceId to backend if needed
+  form.append('invoiceId', invoiceId);
 
   try {
-    // Ensure your backend endpoint is configured to handle file uploads
-    // and process the email with the attached PDF.
-    await api.post('/api/send-invoice', form, { // Ensure this endpoint matches your server.js route
+    await api.post('/api/send-invoice', form, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
     console.log('✅ Invoice emailed successfully.');
