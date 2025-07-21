@@ -58,7 +58,7 @@ const CartSidebar = () => {
                               `💸 Discount: ₹${discount.toFixed(2)}\n` +
                               `🧾 *Total: ₹${total.toFixed(2)}*`;
 
-    const phoneNumber = '919396951724';
+    const phoneNumber = '917207097501';
     const encoded = encodeURIComponent(whatsappMessage);
 
     // Generate PDF with QR - Pass invoiceId to the function
