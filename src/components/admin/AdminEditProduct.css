@@ -1,121 +1,167 @@
 /* Container & Header */
 .edit-product-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 25px;
-  background: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
-}
-.edit-product-container h2 {
-  margin-bottom: 20px;
-  text-align: center;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* Back link/button */
-.edit-back-link {
-  text-decoration: none;
-  font-size: 18px;
-  display: inline-block;
-  margin-bottom: 15px;
-  color: #333;
+.edit-product-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
 }
-.edit-back-link:hover {
-  color: #555;
+
+/* Error Message */
+.error-message {
+    color: #c0392b;
+    background-color: #fce4e4;
+    border: 1px solid #c0392b;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
 }
 
 /* Form & Inputs */
-.edit-product-form {
-  display: flex;
-  flex-direction: column;
-}
-.edit-product-form label {
-  font-weight: 500;
-  margin-top: 12px;
-  margin-bottom: 4px;
-}
-.edit-product-form input[type="text"],
-.edit-product-form input[type="number"],
-.edit-product-form textarea {
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 100%;
-}
-.edit-product-form textarea {
-  min-height: 80px;
-  resize: vertical;
+.edit-form {
+    display: flex;
+    flex-direction: column;
 }
 
-/* File upload */
-.custom-file-upload {
-  display: inline-block;
-  margin-top: 8px;
-  margin-bottom: 12px;
-  position: relative;
-}
-.custom-file-upload input[type="file"] {
-  display: none;
-}
-.upload-btn {
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  padding: 10px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  color: #333;
-  font-weight: 500;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: background 0.3s ease, border-color 0.3s ease;
-}
-.upload-btn:hover {
-  background-color: #e2e2e2;
-  border-color: #aaa;
-}
-.uploaded-image-preview {
-  margin: 10px 0;
-}
-.uploaded-image-preview img.thumb {
-  max-height: 80px;
-  margin-top: 4px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.edit-form label {
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-/* Submit button */
-.save-btn {
-  margin-top: 20px;
-  padding: 12px 18px;
-  background: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-.save-btn:hover {
-  background: #218838;
+.edit-form input[type="text"],
+.edit-form input[type="number"],
+.edit-form textarea {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
 }
 
-/* Loading / Error messages */
-.edit-loading,
-.edit-error {
-  margin-top: 20px;
-  font-size: 16px;
-  text-align: center;
+.edit-form input[type="text"]:focus,
+.edit-form input[type="number"]:focus,
+.edit-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
 }
-.edit-error {
-  color: #c0392b;
+
+.edit-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Custom File Upload Styling */
+input[type="file"] {
+    /* Hide the default file input */
+    display: none;
+}
+
+.upload-label {
+    display: inline-block;
+    background-color: #f0f0f0; /* Light grey background for the button */
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 10px;
+    margin-bottom: 15px; /* Spacing below the upload label */
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.upload-label:hover {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+/* Image Preview and Status */
+.image-preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the start for better left alignment */
+    margin-top: 10px;
+    margin-bottom: 20px; /* Space before the update button */
+}
+
+.image-preview {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: block; /* Ensure it behaves as a block element */
+    margin-bottom: 10px; /* Space between image and status */
+}
+
+.image-status {
+    font-size: 14px;
+    color: #28a745; /* Green for success messages */
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+/* Update Button */
+.update-button {
+    margin-top: 20px; /* Adjusted margin */
+    padding: 14px 20px;
+    background: #007bff; /* Primary blue color */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    align-self: center;
+    width: 50%;
+    display: flex; /* Use flexbox for icon and text alignment */
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+    gap: 8px; /* Space between icon and text */
+}
+
+.update-button:hover {
+    background: #0056b3;
+    transform: translateY(-2px);
+}
+
+.update-button:active {
+    transform: translateY(0);
+}
+
+.update-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* Responsive tweaks */
 @media (max-width: 640px) {
-  .edit-product-container {
-    padding: 15px;
-  }
+    .edit-product-container {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .update-button {
+        width: 80%;
+        padding: 12px 15px;
+        font-size: 16px;
+    }
 }

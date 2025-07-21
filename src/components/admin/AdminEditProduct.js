@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../../utils/api';// ✅ updated import
-import './AdminEditProduct.css';
+import axios from 'axios'; // For imgbb image upload
+import api from '../../utils/api'; // Shared backend instance
+import './AdminEditProduct.css'; // Assuming you want to keep the styling
 
 const AdminEditProduct = () => {
   const { productId } = useParams();
@@ -16,9 +17,11 @@ const AdminEditProduct = () => {
     discount: '',
     tabletsPerSheet: '',
     category: '',
-    image: null,
+    imageUrl: '', // Changed from 'image' to 'imageUrl' to store the URL
   });
-  const [preview, setPreview] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null); // For the new file input
+  const [uploading, setUploading] = useState(false); // To show upload status
+  const [imageUploaded, setImageUploaded] = useState(false); // To confirm image upload
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -34,8 +37,9 @@ const AdminEditProduct = () => {
           discount: data.discount || '',
           tabletsPerSheet: data.tabletsPerSheet || '',
           category: data.category || '',
-          image: null,
+          imageUrl: data.imageUrl || '', // Set existing image URL
         });
+        setImageUploaded(!!data.imageUrl); // If there's an existing URL, consider it "uploaded"
       } catch (err) {
         console.error(err);
         setError('❌ Failed to load product data');
@@ -49,34 +53,54 @@ const AdminEditProduct = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setForm((prev) => ({ ...prev, image: file }));
-      setPreview(URL.createObjectURL(file));
+    setSelectedFile(file);
+    setUploading(true);
+    setImageUploaded(false); // Reset status on new file selection
+
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      // Upload image to imgbb
+      const res = await axios.post(
+        `https://api.imgbb.com/1/upload?key=8d1c0c9cd82d32510f5735fe76025757`, // Replace with your actual imgbb API key
+        formData
+      );
+
+      setForm((prev) => ({
+        ...prev,
+        imageUrl: res.data.data.url, // Store the hosted image URL
+      }));
+
+      setImageUploaded(true);
+      setError('');
+    } catch (err) {
+      console.error('Image upload error:', err);
+      setError('❌ Image upload failed. Please try again.');
+      setImageUploaded(false);
+    } finally {
+      setUploading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const formData = new FormData();
-      Object.entries(form).forEach(([key, value]) => {
-        if (value !== null && value !== '') {
-          formData.append(key, value);
-        }
-      });
 
-      await api.put(`/api/products/by-product-id/${productId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+    if (!form.imageUrl) {
+      setError('Please upload an image or ensure an existing image is present.');
+      return;
+    }
+
+    try {
+      // Send form data, which now includes imageUrl
+      await api.put(`/api/products/by-product-id/${productId}`, form);
 
       navigate('/admin/dashboard');
     } catch (err) {
-      console.error(err);
-      setError('❌ Failed to update product');
+      console.error('Product update error:', err.response?.data?.error || err);
+      setError(err.response?.data?.error || '❌ Failed to update product');
     }
   };
 
@@ -147,11 +171,27 @@ const AdminEditProduct = () => {
             required
           />
 
-          <label>📁 Upload New Image:</label>
-          <input type="file" accept="image/*" onChange={handleImageChange} />
-          {preview && <img src={preview} alt="Preview" className="image-preview" />}
+          <label htmlFor="imageUpload" className="upload-label">
+            📁 {uploading ? 'Uploading...' : 'Upload New Image'}
+          </label>
+          <input type="file" id="imageUpload" accept="image/*" onChange={handleImageUpload} />
 
-          <button type="submit" className="update-button">💾 Update Product</button>
+          {/* Display current or newly uploaded image */}
+          {(form.imageUrl || selectedFile) && (
+            <div className="image-preview-container">
+              {selectedFile ? (
+                <img src={URL.createObjectURL(selectedFile)} alt="New Preview" className="image-preview" />
+              ) : (
+                <img src={form.imageUrl} alt="Current Product" className="image-preview" />
+              )}
+              {imageUploaded && <p className="image-status">✅ Image updated!</p>}
+              {uploading && <p className="image-status">⬆️ Uploading image...</p>}
+            </div>
+          )}
+
+          <button type="submit" className="update-button" disabled={uploading}>
+            💾 Update Product
+          </button>
         </form>
       )}
     </div>
