@@ -1,8 +1,7 @@
-// Navbar.js
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'; // Import useLocation
 import { useCart } from '../context/CartContext';
-import { FaShoppingCart, FaSearch } from 'react-icons/fa'; // ✅ Re-import FaSearch
+import { FaShoppingCart, FaSearch } from 'react-icons/fa'; // Re-import FaSearch
 
 import api from '../utils/api';
 import '../pages/styles/Navbar.css';
@@ -17,12 +16,22 @@ const Navbar = () => {
 
   const suggestionsRef = useRef();
   const lastScrollTop = useRef(0);
+  const location = useLocation(); // Get current location object
 
   const { cartItems, toggleCart } = useCart();
   const navigate = useNavigate();
   const isAdmin = localStorage.getItem('adminAuthenticated');
 
+  // Function to close the mobile menu
+  const closeMobileMenu = () => setMenuOpen(false);
+
+  // Toggle mobile menu state
   const toggleMobileMenu = () => setMenuOpen(!menuOpen);
+
+  // Effect to close mobile menu on route change
+  useEffect(() => {
+    closeMobileMenu(); // Close the menu whenever the route changes
+  }, [location]); // Re-run effect when location object changes
 
   useEffect(() => {
     api.get('/api/products')
@@ -35,7 +44,7 @@ const Navbar = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setShowNavbar(scrollTop <= lastScrollTop.current || scrollTop === 0);
       lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;
-      setMenuOpen(false);
+      setMenuOpen(false); // Also close menu on scroll
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -62,6 +71,7 @@ const Navbar = () => {
       navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
       setSearchTerm('');
       setSuggestions([]);
+      closeMobileMenu(); // Close menu after search
     }
   };
 
@@ -69,6 +79,7 @@ const Navbar = () => {
     navigate(`/search?q=${encodeURIComponent(term)}`);
     setSearchTerm('');
     setSuggestions([]);
+    closeMobileMenu(); // Close menu after suggestion click
   };
 
   const handleKeyDown = (e) => {
@@ -87,12 +98,13 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('adminAuthenticated');
     navigate('/admin/login');
+    closeMobileMenu(); // Close menu after logout
   };
 
   return (
     <nav className="navbar" style={{ top: showNavbar ? '0' : '-80px' }}>
       <div className="navbar-container">
-        <Link to="/" className="navbar-logo">🏥 Vaidya<span className="highlight">Sthana</span></Link>
+        <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>🏥 Vaidya<span className="highlight">Sthana</span></Link>
 
         <form className="search-bar" onSubmit={handleSearchSubmit} autoComplete="off" ref={suggestionsRef}>
           <input
@@ -103,7 +115,7 @@ const Navbar = () => {
             onKeyDown={handleKeyDown}
           />
           <button type="submit">
-            <FaSearch /> {/* ✅ Re-added search button with FaSearch icon */}
+            <FaSearch />
           </button>
           {suggestions.length > 0 && (
             <ul className="search-suggestions">
@@ -121,18 +133,18 @@ const Navbar = () => {
         </form>
 
         <ul className={`nav-menu ${menuOpen ? 'active' : ''}`}>
-          <li><NavLink to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</NavLink></li>
-          <li><NavLink to="/shop" className="nav-link" onClick={() => setMenuOpen(false)}>Shop</NavLink></li>
-          <li><NavLink to="/categories" className="nav-link" onClick={() => setMenuOpen(false)}>Categories</NavLink></li>
-          <li><NavLink to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</NavLink></li>
-          <li><NavLink to="/about" className="nav-link" onClick={() => setMenuOpen(false)}>About</NavLink></li>
-          <li><NavLink to="/admin/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Admin Dashboard</NavLink></li>
+          <li><NavLink to="/" className="nav-link" onClick={closeMobileMenu}>Home</NavLink></li>
+          <li><NavLink to="/shop" className="nav-link" onClick={closeMobileMenu}>Shop</NavLink></li>
+          <li><NavLink to="/categories" className="nav-link" onClick={closeMobileMenu}>Categories</NavLink></li>
+          <li><NavLink to="/contact" className="nav-link" onClick={closeMobileMenu}>Contact</NavLink></li>
+          <li><NavLink to="/about" className="nav-link" onClick={closeMobileMenu}>About</NavLink></li>
+          <li><NavLink to="/admin/dashboard" className="nav-link" onClick={closeMobileMenu}>Admin Dashboard</NavLink></li>
           {isAdmin && (
             <li><button onClick={handleLogout} className="nav-link logout-btn">📛 Logout</button></li>
           )}
         </ul>
 
-        <div className="cart-icon" onClick={toggleCart} title="View Cart">
+        <div className="cart-icon" onClick={() => { toggleCart(); closeMobileMenu(); }} title="View Cart"> {/* Close menu when cart is opened */}
           <FaShoppingCart />
           {cartItems.length > 0 && <span className="cart-count">{cartItems.length}</span>}
         </div>

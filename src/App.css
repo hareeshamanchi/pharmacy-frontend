@@ -1,0 +1,47 @@
+/* App.css */
+
+/*
+  This CSS file is specifically for global application layout adjustments,
+  especially to accommodate the fixed Navbar.
+*/
+
+/*
+  The .main-app-content class is applied to the <main> tag in App.js.
+  It provides top padding to push the page content down, preventing it
+  from being obscured by the fixed Navbar.
+  The value (e.g., 80px) should be equal to or slightly greater than
+  your Navbar's height.
+*/
+.main-app-content {
+  /* Default padding for desktop/larger screens */
+  padding-top: 80px; /* Adjust this value to exactly match your Navbar's height */
+  /* You can also add horizontal padding here if you want consistent page margins */
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box; /* Ensures padding is included in the element's total width/height */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .main-app-content {
+    /* Adjust padding-top for mobile. The navbar might be taller on mobile
+       due to wrapping, so you might need a larger value here.
+       Inspect your mobile navbar's height in browser dev tools.
+    */
+    padding-top: 110px; /* Example: Increased for mobile, adjust as needed */
+    padding-left: 15px; /* Slightly less horizontal padding for smaller screens */
+    padding-right: 15px;
+  }
+}
+
+/*
+  Important Note:
+  If you previously added `padding-top` to the `body` in `index.css`,
+  you should REMOVE it now to avoid double padding.
+*/
+/*
+body {
+  // REMOVE THIS LINE IF IT EXISTS IN index.css
+  // padding-top: 80px;
+}
+*/

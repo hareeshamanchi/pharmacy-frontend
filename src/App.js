@@ -4,8 +4,8 @@ import { CartProvider } from './context/CartContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import CartSidebar from './context/CartSidebar';
-import Toast from './context/Toast'; // ✅ Simple Toast component (event-based)
+import CartSidebar from './context/CartSidebar'; // Assuming CartSidebar is a component, not a context itself
+import Toast from './context/Toast'; // Simple Toast component (event-based)
 
 import Home from './pages/Home';
 import Shop from './pages/Shop';
@@ -21,6 +21,9 @@ import AdminDashboard from './components/admin/AdminDashboard';
 import AdminEditWrapper from './components/admin/AdminEditWrapper';
 import AdminLogin from './components/admin/AdminLogin';
 
+// Import the new App.css
+import './App.css'; // <--- ADD THIS LINE
+
 function App() {
   const isAdminAuthenticated = localStorage.getItem('adminAuthenticated');
 
@@ -29,33 +32,39 @@ function App() {
       <Router>
         <Navbar />
         <CartSidebar />
-        <Toast /> {/* ✅ Toast always mounted globally */}
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/categories" element={<Categories />} />
-          <Route path="/products/:category" element={<CategoryProducts />} />
-          <Route path="/product/:productId" element={<ProductDetails />} />
-          <Route path="/search" element={<SearchResults />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/about" element={<AboutUs />} />
+        <Toast /> {/* Toast always mounted globally */}
+        
+        {/* --- NEW: Main content wrapper to apply padding for fixed navbar --- */}
+        <main className="main-app-content"> 
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/products/:category" element={<CategoryProducts />} />
+            <Route path="/product/:productId" element={<ProductDetails />} />
+            <Route path="/search" element={<SearchResults />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/about" element={<AboutUs />} />
 
-          {/* Admin Routes */}
-          <Route
-            path="/admin/dashboard"
-            element={isAdminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/login" />}
-          />
-          <Route
-            path="/admin/add-product"
-            element={isAdminAuthenticated ? <AdminAddProduct /> : <Navigate to="/admin/login" />}
-          />
-          <Route
-            path="/admin/edit/:productId"
-            element={isAdminAuthenticated ? <AdminEditWrapper /> : <Navigate to="/admin/login" />}
-          />
+            {/* Admin Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={isAdminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/login" />}
+            />
+            <Route
+              path="/admin/add-product"
+              element={isAdminAuthenticated ? <AdminAddProduct /> : <Navigate to="/admin/login" />}
+            />
+            <Route
+              path="/admin/edit/:productId"
+              element={isAdminAuthenticated ? <AdminEditWrapper /> : <Navigate to="/admin/login" />}
+            />
 
-          <Route path="/admin/login" element={<AdminLogin />} />
-        </Routes>
+            <Route path="/admin/login" element={<AdminLogin />} />
+          </Routes>
+        </main>
+        {/* --- END NEW --- */}
+
         <Footer />
       </Router>
     </CartProvider>

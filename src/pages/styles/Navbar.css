@@ -1,452 +1,385 @@
-/* Navbar.css */
-
 /* General Body Styles for Font Smoothing (can also go in a global.css) */
 body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    margin: 0;
-    overflow-x: hidden; /* Prevent horizontal scroll for smooth animations */
-    background-color: #f0f2f5; /* A very subtle light grey background for the whole page */
-    font-family: 'Inter', sans-serif; /* Consistent font across the body */
+  margin: 0;
+  /* CRITICAL: Adjust padding-top to make space for the fixed navbar */
+  /* This value should be equal to or slightly more than your navbar's height */
+  padding-top: 80px; 
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Navbar Container */
 .navbar {
-    background: linear-gradient(to right, #e0f2f7, #c1e8f7, #a2dcf0); /* Light blue/green gradient */
-    height: 80px; /* Slightly taller for more presence */
-    position: fixed;
-    width: 100%;
-    /* top will be controlled by JS for hide/show on scroll */
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    transition: top 0.2s ease-in-out, box-shadow 0.3s ease-in-out; /* Faster hide/show animation */
-    font-family: 'Inter', sans-serif; /* A modern, clean font */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Lighter, subtle shadow */
+  background: linear-gradient(to right, #e0f2f7, #c1e8f7, #a2dcf0); /* Soft gradient background */
+  height: 80px; /* Navbar fixed height */
+  position: fixed; /* Makes the navbar stick to the top */
+  width: 100%;
+  top: 0;
+  left: 0; /* Ensure it spans full width */
+  z-index: 9999; /* High z-index to stay above everything */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center content horizontally */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: top 0.3s ease-in-out; /* Smooth slide-in/out effect on scroll */
 }
 
+/* Navbar content centered within max-width */
 .navbar-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 0 30px; /* More padding on sides for breathing room */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: nowrap;
+  max-width: 1400px; /* Max width for content inside navbar */
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 30px; /* Horizontal padding for desktop */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Allows items to wrap on smaller screens */
 }
 
+/* Navbar logo */
 .navbar-logo {
-    font-size: 2.1rem; /* Slightly larger logo for impact */
-    font-weight: 800; /* Extra bold */
-    color: #0a192f; /* Dark text for contrast */
-    text-decoration: none;
-    white-space: nowrap;
-    letter-spacing: 1px; /* Enhanced letter spacing */
-    transition: color 0.3s ease;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0a192f; /* Dark text color */
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
 }
 
 .navbar-logo .highlight {
-    color: #007bff; /* Bright blue highlight */
+  color: #007bff; /* Highlight color for "Sthana" */
 }
 
 .navbar-logo:hover {
-    color: #0056b3; /* Darker blue on hover */
+  color: #0056b3; /* Darker blue on hover */
 }
 
 /* Search Bar */
 .search-bar {
-    display: flex;
-    align-items: center;
-    position: relative;
-    flex-grow: 1;
-    max-width: 550px; /* Wider search bar */
-    margin: 0 50px; /* Increased margin */
-    background-color: transparent; /* Ensure no background on the form itself */
-    border: none; /* Make sure the container doesn't have a border */
-    box-shadow: none; /* Make sure the container doesn't have a shadow */
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-grow: 1; /* Allows search bar to take available space */
+  max-width: 550px;
+  margin: 0 50px; /* Horizontal margin for desktop */
+  background-color: transparent; /* Background of the bar itself */
 }
 
 .search-bar input {
-    flex-grow: 1;
-    padding: 14px 25px; /* More padding for a substantial feel */
-    padding-right: 60px; /* ✅ Adjusted padding-right for the button */
-    border-radius: 40px; /* Fully rounded pill shape */
-    border: none !important; /* FORCE NO BORDER */
-    outline: none !important; /* FORCE NO OUTLINE */
-    font-size: 17px;
-    background-color: #ffffff; /* White background */
-    color: #333; /* Dark text color */
-    box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Subtle inner shadow */
-    transition: all 0.3s ease-in-out;
+  flex-grow: 1;
+  padding: 14px 25px;
+  padding-right: 60px; /* Space for search button */
+  border-radius: 40px; /* Rounded corners */
+  border: none !important; /* Override potential browser defaults */
+  outline: none !important;
+  font-size: 17px;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1); /* Inner shadow */
+  transition: all 0.3s ease-in-out;
 }
+
 .search-bar input::placeholder {
-    color: #777; /* Lighter placeholder text */
+  color: #777;
 }
 
 .search-bar input:focus {
-    background-color: #ffffff !important;
-    color: #333 !important;
-    border: 1px solid #007bff !important; /* Blue highlight on focus */
-    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Blue glow */
+  background-color: #ffffff !important;
+  color: #333 !important;
+  border: 1px solid #007bff !important; /* Blue border on focus */
+  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1) !important; /* Outer glow on focus */
 }
 
 .search-bar button {
-    padding: 0; /* Remove padding to let icon size control button size */
-    width: 40px; /* ✅ Smaller button width */
-    height: 40px; /* ✅ Smaller button height */
-    background: transparent; /* ✅ Transparent background */
-    color: #007bff; /* ✅ Blue icon color */
-    border: none; /* ✅ No border */
-    border-radius: 50%; /* Make it perfectly circular */
-    margin-left: -45px; /* ✅ Adjusted overlap for smaller button */
-    cursor: pointer;
-    transition: all 0.2s ease; /* Faster transition for button hover */
-    font-size: 20px; /* ✅ Smaller font-size for icon (FaSearch scales to this) */
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none; /* ✅ No initial shadow */
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  color: #007bff;
+  border: none;
+  border-radius: 50%;
+  margin-left: -45px; /* Pull button over input */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+  z-index: 2; /* Ensure button is clickable over input */
+  display: flex; /* For icon centering */
+  justify-content: center;
+  align-items: center;
 }
 
 .search-bar button:hover {
-    background-color: rgba(0, 123, 255, 0.1); /* ✅ Subtle blue background on hover */
-    transform: scale(1.1); /* Subtle scale on hover */
-    box-shadow: none; /* No shadow on hover for a cleaner look */
-    color: #0056b3; /* Darker blue on hover */
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: scale(1.1);
+  box-shadow: none;
+  color: #0056b3;
 }
 
-.search-bar button svg { /* Style for the FaSearch SVG icon inside the button */
-    width: 100%; /* Make SVG fill button width */
-    height: 100%; /* Make SVG fill button height */
-    fill: currentColor; /* Inherit color from parent button */
-    transition: fill 0.2s ease;
-}
-
-
-.search-suggestions {
-    position: absolute;
-    top: calc(100% + 5px);
-    left: 0;
-    right: 0;
-    background: white;
-    z-index: 1000;
-    border: none; /* No border, rely on shadow */
-    border-radius: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    border-top: none !important;
-}
-.search-suggestions li {
-    padding: 15px 22px;
-    font-size: 16.5px;
-    cursor: pointer;
-    color: #444;
-    border-bottom: 1px solid #f2f2f2;
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-.search-suggestions li:last-child {
-    border-bottom: none;
-}
-.search-suggestions li:hover,
-.search-suggestions li.highlighted {
-    background-color: #e6f7ff;
-    color: #0a192f;
-}
-
-/* Nav Menu */
+/* Navbar Menu (Desktop) */
 .nav-menu {
-    list-style: none;
-    display: flex;
-    gap: 35px;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex; /* Display links horizontally */
+  gap: 35px; /* Space between menu items */
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 .nav-link {
-    color: #0a192f;
-    text-decoration: none;
-    font-size: 17.5px;
-    padding: 10px 0;
-    position: relative;
-    font-weight: 500;
-    transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+  color: #0a192f;
+  text-decoration: none;
+  font-size: 17.5px;
+  padding: 10px 0;
+  position: relative;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.nav-link::after {
-    content: '';
-    width: 0%;
-    height: 3px;
-    background: #007bff;
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+.nav-link:hover {
+  color: #0056b3;
 }
 
-.nav-link:hover::after {
-    width: 100%;
-}
-.nav-link:hover,
-.nav-link.active {
-    color: #0056b3;
-    transform: translateY(-4px);
-    text-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+.nav-link.active { /* Style for active link */
+  color: #007bff;
 }
 
+/* Logout Button Specific Style */
 .logout-btn {
-    background: #dc3545;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  background: none;
+  border: 2px solid #dc3545; /* Red border for logout */
+  color: #dc3545;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
 }
+
 .logout-btn:hover {
-    background: #c82333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #dc3545;
+  color: white;
 }
 
 /* Cart Icon */
 .cart-icon {
-    position: relative;
-    /* margin-left: 35px; <= REMOVE THIS IF YOU MOVED IT INSIDE THE LIST ITEM */
-    cursor: pointer;
-    color: #0a192f;
-    transition: transform 0.2s ease, color 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px; /* Keep padding for the clickable area */
-    width: 30px;
-    height: 30px;
-}
-
-.cart-icon svg {
-    width: 100%;
-    height: 100%;
-    fill: currentColor;
-    transition: fill 0.2s ease;
+  position: relative;
+  font-size: 24px;
+  cursor: pointer;
+  color: #0a192f; /* Icon color */
+  transition: color 0.3s ease;
+  margin-left: 20px; /* Space from nav menu or search bar */
 }
 
 .cart-icon:hover {
-    transform: scale(1.2);
-    color: #007bff;
+  color: #007bff;
 }
 
-/* Updated Cart Count Styles for a Smaller Number */
 .cart-count {
-    position: absolute;
-    top: -2px;    /* Adjusted to move it slightly higher, fine-tune as needed */
-    right: -4px; /* Adjusted to move it slightly more to the left, fine-tune as needed */
-    background: #ff5722;
-    color: white;
-    border-radius: 50%;
-    padding: 3px; /* Reduced padding for a smaller visual size */
-    font-size: 10px; /* Smaller font size for the number */
-    min-width: 8px; /* Reduced minimum width */
-    height: 8px;     /* Reduced height to match min-width for circular shape */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    font-weight: 700;
-    border: 1.5px solid #e0f2f7;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #e63946; /* Red circle for count */
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  line-height: 1;
 }
 
-/* Rest of your CSS remains unchanged */
 /* Mobile Menu Icon (Hamburger) */
 .mobile-menu-icon {
-    display: none;
-    flex-direction: column;
-    gap: 7px;
-    cursor: pointer;
-    z-index: 10000;
-    margin-left: 25px;
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  gap: 7px; /* Space between bars */
+  cursor: pointer;
+  z-index: 10000; /* Ensure it's on top */
 }
 
 .bar {
-    width: 32px;
-    height: 4px;
-    background: #0a192f;
-    transition: all 0.3s ease-in-out;
-    border-radius: 3px;
+  width: 32px;
+  height: 4px;
+  background: #0a192f; /* Bar color */
+  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
 }
 
 .bar.open:nth-child(1) {
-    transform: rotate(45deg) translate(9px, 9px);
+  transform: rotate(45deg) translate(9px, 9px); /* Rotates and moves the top bar */
 }
 
 .bar.open:nth-child(2) {
-    opacity: 0;
+  opacity: 0; /* Hides the middle bar */
 }
 
 .bar.open:nth-child(3) {
-    transform: rotate(-45deg) translate(9px, -9px);
+  transform: rotate(-45deg) translate(9px, -9px); /* Rotates and moves the bottom bar */
 }
 
-/* =================== Responsive Adjustments (Mobile First Approach) =================== */
+/* Search Suggestions */
+.search-suggestions {
+  position: absolute;
+  top: 100%; /* Position below the search input */
+  left: 0;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  list-style: none;
+  padding: 10px 0;
+  margin-top: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* Ensure suggestions are above other content */
+  max-height: 200px; /* Limit height and make scrollable */
+  overflow-y: auto;
+}
+
+.search-suggestions li {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.search-suggestions li:hover,
+.search-suggestions li.highlighted {
+  background-color: #f0f0f0;
+}
+
+.search-suggestions li small {
+  color: #888;
+  font-size: 0.85em;
+}
+
+/* ========================================================= */
+/* Media Queries for Responsiveness                          */
+/* ========================================================= */
+
+/* Tablet & Smaller Desktop (992px to 769px) */
 @media screen and (max-width: 992px) {
-    .navbar-container {
-        padding: 0 20px;
-    }
-    .search-bar {
-        max-width: 350px;
-        margin: 0 25px;
-    }
-    .search-bar input {
-        padding: 12px 20px;
-        font-size: 16px;
-        padding-right: 60px; /* Adjusted for button on smaller screens */
-    }
-    .search-bar button { /* Adjusted button size for smaller screens */
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-        margin-left: -40px;
-    }
-    .nav-menu {
-        gap: 25px;
-    }
-    .navbar-logo {
-        font-size: 1.8rem;
-    }
-    /* .cart-icon { <= REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
-        /* width: 28px; */
-        /* height: 28px; */
-    /* } */
+  .navbar-container {
+    padding: 0 20px; /* Reduced horizontal padding */
+  }
+  .search-bar {
+    max-width: 300px; /* Smaller search bar */
+    margin: 0 20px; /* Adjusted margins */
+  }
+
+  .nav-menu {
+    gap: 25px; /* Reduced gap between menu items */
+  }
 }
 
+/* Mobile (768px and below) */
 @media screen and (max-width: 768px) {
-    .navbar {
-        height: auto;
-        padding-bottom: 15px;
-        align-items: flex-start;
-    }
-    .navbar-container {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 20px 0 20px;
-    }
-    .navbar-logo {
-        font-size: 1.6rem;
-        order: 1;
-        margin-right: auto;
-    }
-    .mobile-menu-icon {
-        display: flex;
-        order: 3;
-        margin-left: 20px;
-    }
-    /* REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
-    /* .cart-icon { */
-    /* order: 2; */
-    /* margin-left: auto; */
-    /* width: 28px; */
-    /* height: 28px; */
-    /* } */
-    .search-bar {
-        order: 4;
-        width: 100%;
-        margin-top: 20px;
-        margin-left: 0;
-        margin-right: 0;
-    }
-    .search-bar input {
-        width: 100%;
-        box-sizing: border-box;
-        padding-right: 60px; /* Adjusted for button on mobile */
-    }
-    .search-bar button { /* Adjusted button size for mobile */
-        width: 36px;
-        height: 36px;
-        font-size: 18px;
-        right: 10px;
-        margin-left: 0;
-    }
-    .search-suggestions {
-        width: calc(100% - 40px);
-        left: 20px;
-        right: 20px;
-    }
-    .nav-menu {
-        order: 5;
-        flex-direction: column;
-        align-items: center;
-        background-color: #f7fcfd;
-        width: 100%;
-        position: absolute;
-        top: 80px;
-        left: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease-in-out, padding 0.4s ease;
-        z-index: 9998;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-    }
-    .nav-menu.active {
-        max-height: 500px;
-        padding: 20px 0;
-    }
-    .nav-menu li {
-        width: 100%;
-        text-align: center;
-        padding: 5px 0;
-    }
-    .nav-link {
-        display: block;
-        padding: 16px 0;
-        font-size: 19px;
-        color: #0a192f;
-    }
-    .nav-link::after {
-        height: 4px;
-        bottom: -10px;
-    }
-    .logout-btn {
-        width: calc(100% - 60px);
-        margin: 15px auto 0 auto;
-    }
+  .navbar {
+    height: auto; /* Allow height to adjust based on content */
+    padding-bottom: 15px; /* Add bottom padding when wrapped */
+    align-items: flex-start; /* Align items to the top in the wrapped layout */
+  }
+
+  .navbar-container {
+    flex-direction: row; /* Keep items in a row initially */
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px 0 20px; /* Adjust padding for mobile */
+  }
+
+  .navbar-logo {
+    font-size: 1.6rem;
+    order: 1; /* First item in flex order */
+    margin-right: auto; /* Push other items to the right */
+  }
+
+  .mobile-menu-icon {
+    display: flex; /* Show hamburger menu */
+    order: 3; /* Third item in flex order */
+    margin-left: 20px;
+  }
+
+  .cart-icon {
+    order: 2; /* Second item, between logo and hamburger */
+    margin-left: 0; /* Remove extra left margin */
+  }
+
+
+  .search-bar {
+    order: 4; /* Search bar moves to a new line */
+    width: 100%; /* Full width */
+    margin-top: 20px; /* Space from elements above */
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Mobile Navigation Menu (Sidebar effect) */
+  .nav-menu {
+    order: 5; /* Moves below search bar */
+    flex-direction: column; /* Stack links vertically */
+    align-items: center; /* Center items in the column */
+    background-color: #f7fcfd; /* Light background for the menu */
+    width: 100%;
+    position: absolute; /* Position absolutely relative to navbar */
+    top: 80px; /* Start below the main navbar area */
+    left: 0;
+    max-height: 0; /* Hide by default */
+    overflow: hidden; /* Hide content that exceeds max-height */
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease; /* Smooth transition */
+    z-index: 9998; /* Below main navbar, above page content */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-menu.active {
+    max-height: 500px; /* Expand to show menu items (adjust if more items are added) */
+    padding: 20px 0; /* Add padding when active */
+  }
+
+  .nav-menu li {
+    width: 100%;
+    text-align: center;
+    padding: 5px 0;
+  }
+
+  .nav-link {
+    display: block; /* Make links fill the entire width for easier tapping */
+    padding: 16px 0;
+    font-size: 19px;
+    color: #0a192f;
+  }
+
+  .logout-btn {
+    width: calc(100% - 60px); /* Adjust width to have some margin */
+    margin: 15px auto 0 auto; /* Center button horizontally */
+  }
 }
 
+/* Smaller Mobile (480px and below) */
 @media screen and (max-width: 480px) {
-    .navbar-logo {
-        font-size: 1.4rem;
-    }
-    /* .cart-icon { <= REMOVE THIS BLOCK IF YOU MOVED IT INSIDE THE LIST ITEM */
-        /* width: 24px; */
-        /* height: 24px; */
-    /* } */
-    .mobile-menu-icon {
-        gap: 6px;
-    }
-    .bar {
-        width: 28px;
-        height: 3px;
-    }
-    .search-bar input {
-        padding-right: 55px; /* Final adjustment for very small screens */
-    }
-    .search-bar button { /* Adjusted button size for very small screens */
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
-        right: 8px;
-    }
+  .navbar-logo {
+    font-size: 1.4rem;
+  }
+
+  .mobile-menu-icon {
+    gap: 6px;
+  }
+
+  .bar {
+    width: 28px;
+    height: 3px;
+  }
+
+  .search-bar input {
+    padding-right: 55px;
+  }
+
+  .search-bar button {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+    right: 8px; /* Adjust button position within search bar */
+  }
 }
