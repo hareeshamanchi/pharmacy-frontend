@@ -1,3 +1,5 @@
+/* AdminAddProduct.css */
+
 .admin-add-product {
   max-width: 700px;
   margin: 90px auto;
@@ -6,6 +8,8 @@
   border-radius: 12px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', sans-serif;
+  position: relative; /* CRITICAL: Establish positioning context for absolute children */
+  z-index: 1000; /* Ensures the form itself is above general page content */
 }
 
 .admin-add-product h2 {
@@ -28,13 +32,14 @@
   font-size: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  transition: 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-add-product input:focus,
 .admin-add-product textarea:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+  outline: none; /* Remove default outline */
 }
 
 textarea {
@@ -42,30 +47,24 @@ textarea {
   min-height: 100px;
 }
 
-.file-upload-label {
-  background: #f0f0f0;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-weight: 500;
+/* Styles for the "X" close button */
+.close-button {
+  position: absolute; /* Position it relative to .admin-add-product */
+  top: 15px; /* Adjust as needed for vertical position */
+  right: 15px; /* Adjust as needed for horizontal position */
+  background: none; /* No background */
+  border: none; /* No border */
+  font-size: 24px; /* Larger 'X' icon */
   cursor: pointer;
-  text-align: center;
-  transition: background 0.3s ease;
-  width: fit-content;
+  color: #a0a0a0; /* Softer grey color */
+  padding: 5px; /* Clickable area */
+  line-height: 1; /* Ensures vertical alignment of emoji */
+  transition: color 0.2s ease;
+  z-index: 10001; /* CRITICAL: Higher than navbar's z-index (9999) and form's z-index (1000) */
 }
 
-.file-upload-label:hover {
-  background: #e0e0e0;
-}
-
-input[type="file"] {
-  display: none;
-}
-
-.image-status {
-  font-size: 14px;
-  color: green;
-  margin-top: -10px;
-  font-weight: 500;
+.close-button:hover {
+  color: #dc3545; /* Red on hover */
 }
 
 .admin-add-product button {
@@ -77,35 +76,41 @@ input[type="file"] {
   font-weight: bold;
   cursor: pointer;
   font-size: 16px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .admin-add-product button:hover {
   background: #0056b3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Styles for success and error messages */
 .success,
 .error {
   text-align: center;
   font-weight: bold;
   margin-top: 15px;
   font-size: 15px;
+  padding: 10px 20px; /* Added padding for better appearance */
+  border-radius: 8px; /* Added border-radius */
+  display: flex; /* Use flexbox to align text and close button */
+  justify-content: space-between; /* Space out text and button */
+  align-items: center;
+  position: relative; /* Needed for any internal positioning or stacking */
+  z-index: 10000; /* Ensures messages are above the form if they are floating */
 }
 
 .success {
   color: #28a745;
+  background-color: #d4edda; /* Light green background */
+  border: 1px solid #28a745;
 }
 
 .error {
   color: #dc3545;
+  background-color: #f8d7da; /* Light red background */
+  border: 1px solid #dc3545;
 }
-
-@media screen and (max-width: 768px) {
-  .admin-add-product {
-    padding: 25px 20px;
-  }
-}
-
 
 /* Custom File Upload */
 .custom-file-upload {
@@ -129,10 +134,43 @@ input[type="file"] {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .upload-btn:hover {
   background-color: #e2e2e2;
   border-color: #aaa;
+}
+
+.image-status {
+  font-size: 14px;
+  color: green;
+  margin-top: -10px;
+  font-weight: 500;
+}
+
+/* Link for viewing uploaded image */
+.admin-add-product a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: -10px; /* Adjust spacing */
+  display: block; /* Make it a block element to control margin */
+  text-align: center;
+}
+
+.admin-add-product a:hover {
+  text-decoration: underline;
+}
+
+
+@media screen and (max-width: 768px) {
+  .admin-add-product {
+    padding: 25px 20px;
+  }
+  .close-button {
+      font-size: 20px; /* Adjust size for mobile */
+      top: 10px;
+      right: 10px;
+  }
 }
